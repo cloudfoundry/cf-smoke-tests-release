@@ -3,8 +3,8 @@ name: smoke-tests
 dependencies:
   - cli
 files:
-  - smoke-tests/**/*
+  - smoke_tests/**/*
 excluded_files:
-  - smoke-tests/smoke/results/*
-  - smoke-tests/*config.json
-  - smoke-tests/**/*.test
+  - smoke_tests/smoke/results/*
+  - smoke_tests/*config.json
+  - smoke_tests/**/*.test
