@@ -6,7 +6,7 @@ description: "The smoke tests errand can be configured to run quick set of tests
 packages:
   - golang1.7
   - cli
-  - smoke-tests
+  - smoke_tests
 
 templates:
   run.erb: bin/run

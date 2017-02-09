@@ -4,4 +4,4 @@ REPO_DIR=${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry/cf-smoke-tests-relea
 
 mkdir -p ${REPO_DIR}
 
-cp -a smoke-tests/* ${REPO_DIR}
+cp -a smoke_tests/* ${REPO_DIR}
