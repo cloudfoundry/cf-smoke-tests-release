@@ -3,5 +3,4 @@ final_name: cf-smoke-tests
 blobstore:
   provider: s3
   options:
-    region: us-west-1
     bucket_name: cf-smoke-tests-release-bucket
