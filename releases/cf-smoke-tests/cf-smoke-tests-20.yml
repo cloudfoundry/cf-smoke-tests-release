@@ -1,0 +1,30 @@
+name: cf-smoke-tests
+version: "20"
+commit_hash: 97da78b
+uncommitted_changes: false
+jobs:
+- name: smoke_tests
+  version: b7283661c56109218a4455ed2c91a4a5132b867a
+  fingerprint: b7283661c56109218a4455ed2c91a4a5132b867a
+  sha1: 01835a49e6a4f490fbabd8d6219b073c12dff42d
+packages:
+- name: cli
+  version: 6e22370bfb380059b856a1b397bc14ae9ec1633c
+  fingerprint: 6e22370bfb380059b856a1b397bc14ae9ec1633c
+  sha1: a1d7bced521d88217c6adc8391b86f891c1fafaf
+  dependencies: []
+- name: golang1.7
+  version: fb3379fa5b3afb2e6e515657a33f2145ba4bd076
+  fingerprint: fb3379fa5b3afb2e6e515657a33f2145ba4bd076
+  sha1: 5a0d9ebd56d97f9b23c545654c89895c266552ca
+  dependencies: []
+- name: smoke_tests
+  version: 09cebf49cfc3c23608b7ebea98dc1cfdbcd6924a
+  fingerprint: 09cebf49cfc3c23608b7ebea98dc1cfdbcd6924a
+  sha1: e83fbd552667a4c9feabc307dfc3910d19b5a97f
+  dependencies:
+  - cli
+license:
+  version: 61ec050b6394cab2eccba04f2d7981c3bc7f1c97
+  fingerprint: 61ec050b6394cab2eccba04f2d7981c3bc7f1c97
+  sha1: 9fbbba3d88375e9fc59fd4a91e7a0e36757bf773
