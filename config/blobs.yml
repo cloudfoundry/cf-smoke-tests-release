@@ -1,7 +1,7 @@
 cli/cf-cli_6.26.0_linux_x86-64.tgz:
-  object_id: db58b893-9d3e-477e-96ae-9941d3cebea9
-  sha: 6fe2df0ef09820a3a46db5cac9152fb8f1ecca02
   size: 5174999
+  object_id: 33dae15f-addd-431b-4ff0-7fa73b9ed170
+  sha: 6fe2df0ef09820a3a46db5cac9152fb8f1ecca02
 golang/go1.7.5.linux-amd64.tar.gz:
   size: 84176916
   object_id: 2690058d-e39b-4ba2-4650-14af3d38da8b
