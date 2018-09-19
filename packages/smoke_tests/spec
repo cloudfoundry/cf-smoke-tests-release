@@ -1,7 +1,5 @@
 ---
 name: smoke_tests
-dependencies:
-  - cli
 files:
   - smoke_tests/**/*
 excluded_files:
