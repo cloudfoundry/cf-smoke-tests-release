@@ -1,0 +1,9 @@
+. ./exiter.ps1
+
+$ErrorActionPreference = "Stop";
+trap { $host.SetShouldExit(1) }
+
+$BOSH_INSTALL_TARGET = Resolve-Path $env:BOSH_INSTALL_TARGET
+$REPO_DIR="$BOSH_INSTALL_TARGET\src\github.com\cloudfoundry\cf-smoke-tests"
+mkdir -p "$REPO_DIR"
+Copy-Item -Recurse -Force .\smoke_tests\* "$REPO_DIR"

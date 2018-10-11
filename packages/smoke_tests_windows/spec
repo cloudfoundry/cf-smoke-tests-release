@@ -1,0 +1,9 @@
+---
+name: smoke_tests_windows
+files:
+  - smoke_tests/**/*
+  - exiter.ps1
+excluded_files:
+  - smoke_tests/smoke/results/*
+  - smoke_tests/*config.json
+  - smoke_tests/**/*.test
