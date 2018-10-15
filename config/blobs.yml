@@ -1,7 +1,7 @@
 cf-cli_6.39.1_windows_x86-64.zip:
-  size: 4699116
-  object_id: c15bca51-b24c-4179-671d-4f548530f7c5
-  sha: dd0c024503ce56a1c36495510f0e5e14e3cf61dc
+  size: 6244648
+  object_id: f44cad67-4b78-4260-48a6-113568f71d36
+  sha: 6148f53b68be9aecdefe96a4dcabb399b6f1c89e
 golang/go1.10.3.linux-amd64.tar.gz:
   size: 132489256
   object_id: d1f3967f-06f3-4842-65a4-4eea92d5de2e
