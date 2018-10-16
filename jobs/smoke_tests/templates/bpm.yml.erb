@@ -1,0 +1,6 @@
+processes:
+  - name: smoke_tests
+    executable: /var/vcap/jobs/smoke_tests/bin/run_smoke_test
+    args:
+    - --port
+    - 2424
