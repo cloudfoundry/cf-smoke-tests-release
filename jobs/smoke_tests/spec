@@ -9,7 +9,7 @@ packages:
 
 templates:
   run.erb: bin/run
-  run_smoke_test.erb: bin/run_smoke_test
+  test.erb: bin/test
   config.json.erb: bin/config.json
   bpm.yml.erb: config/bpm.yml
 
