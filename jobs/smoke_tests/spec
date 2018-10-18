@@ -10,7 +10,7 @@ packages:
 templates:
   run.erb: bin/run
   test.erb: bin/test
-  config.json.erb: bin/config.json
+  config.json.erb: config/config.json
   bpm.yml.erb: config/bpm.yml
 
 properties:

@@ -3,30 +3,23 @@
 set -e
 
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
-export PATH=${GOROOT}/bin:${PATH}
-
-export PATH=/var/vcap/packages/cf-cli-6-linux/bin:${PATH} # put the cli on the path
-
 export GOPATH=/var/vcap/packages/smoke_tests
+export PATH=${GOROOT}/bin:${PATH}
+export PATH=/var/vcap/packages/cf-cli-6-linux/bin:${PATH} # put the cli on the path
 export PATH=${GOPATH}/bin:${PATH}
+
+export CONFIG=/var/vcap/jobs/smoke_tests/config/config.json
 
 cd /var/vcap/packages/smoke_tests/src/github.com/cloudfoundry/cf-smoke-tests
 
-export CONFIG=/var/vcap/jobs/smoke_tests/bin/config.json
 <% if_p("smoke_tests.cf_dial_timeout_in_seconds") do |timeout| %>
 export CF_DIAL_TIMEOUT=<%= timeout %>
 <% end %>
 
-echo '################################################################################################################'
-echo $(go version)
-echo CONFIG=${CONFIG}
-env | sort
-echo '################################################################################################################'
-
 echo "Running smoke tests..."
 
-EXITSTATUS=0
-./bin/test <%= properties.smoke_tests.ginkgo_opts %> || EXITSTATUS=$?
+TEST_BINARIES=$(ls smoke/**/*.test)
 
-echo "Smoke Tests Complete; exit status: $EXITSTATUS"
-exit $EXITSTATUS
+echo "Running binaries ${TEST_BINARIES}"
+
+ginkgo --succinct -slowSpecThreshold=300 -p ${TEST_BINARIES} <%= properties.smoke_tests.ginkgo_opts %>
