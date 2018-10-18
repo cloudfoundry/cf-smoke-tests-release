@@ -1,7 +1,15 @@
 set -e -x
 
 REPO_DIR=${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry/cf-smoke-tests
-
 mkdir -p ${REPO_DIR}
 
 cp -a smoke_tests/* ${REPO_DIR}
+
+export GOPATH=${BOSH_INSTALL_TARGET}
+
+export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+export PATH=$GOROOT/bin:$PATH
+
+cp -r ${REPO_DIR}/vendor/github.com/onsi ${BOSH_INSTALL_TARGET}/src/github.com/onsi
+go install github.com/onsi/ginkgo/ginkgo
+

@@ -1,5 +1,7 @@
 ---
 name: smoke_tests
+dependencies:
+  - golang
 files:
   - smoke_tests/**/*
 excluded_files:

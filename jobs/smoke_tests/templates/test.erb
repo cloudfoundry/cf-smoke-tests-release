@@ -12,11 +12,6 @@ export PATH=${GOPATH}/bin:${PATH}
 
 cd /var/vcap/packages/smoke_tests/src/github.com/cloudfoundry/cf-smoke-tests
 
-mkdir -p $GOPATH/src/
-cp -r ./vendor/* $GOPATH/src/
-
-go install github.com/onsi/ginkgo/ginkgo
-
 export CONFIG=/var/vcap/jobs/smoke_tests/bin/config.json
 <% if_p("smoke_tests.cf_dial_timeout_in_seconds") do |timeout| %>
 export CF_DIAL_TIMEOUT=<%= timeout %>
