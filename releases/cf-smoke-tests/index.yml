@@ -85,6 +85,8 @@ builds:
     version: "7"
   da4897e2-ee0d-481d-5f98-01040663aba6:
     version: "12"
+  db173e7a-b471-4b08-782b-4f04b14b5f96:
+    version: 40.0.13
   e066d4e6-3047-4e7a-6bd4-735913196ba8:
     version: "15"
   e1bf4d92-e1d4-4ce1-6c49-f4857d15f317:
