@@ -54,9 +54,6 @@ properties:
     description: Specifies the Windows stack on which the Windows tests will run if enable_windows_tests is true
   smoke_tests.artifacts_directory:
     description: The directory in which to store test CF_TRACE output
-  smoke_tests.backend:
-    default: ''
-    description: Defines the backend to be used. ('dea', 'diego', '' (default))
   smoke_tests.cf_dial_timeout_in_seconds:
     description: Sets the cli timeout (CF_DIAL_TIMEOUT)
   smoke_tests.isolation_segment_name:
