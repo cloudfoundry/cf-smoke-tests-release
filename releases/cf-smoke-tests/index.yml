@@ -69,6 +69,8 @@ builds:
     version: 40.0.3
   b7a28c3b-1eac-42b4-4776-fe88b474bd17:
     version: "13"
+  c497e0ef-a4d9-4f12-647f-2d35affa9a84:
+    version: 40.0.12
   cc540638-82c0-4ae9-4a67-76ca67385db8:
     version: 40.0.10
   cd9a3228-5c49-4e7c-725a-baa72d14708a:
