@@ -33,6 +33,8 @@ builds:
     version: "19"
   321847b8-3725-45e6-639a-b5f9f6c97a83:
     version: 40.0.4
+  327aaf44-8042-4c70-5b0c-db40b172f308:
+    version: 40.0.15
   33c94095-4337-42d4-5cca-21d2896feb6e:
     version: 40.0.14
   345271e5-145f-4bc8-6e01-f3b19f96896e:
