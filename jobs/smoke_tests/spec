@@ -14,6 +14,9 @@ templates:
   bpm.yml.erb: config/bpm.yml
 
 properties:
+  bpm.enabled:
+    default: false
+    description: "Use the BOSH Process Manager(BPM) to manage to run Smoke Tests errand."
   smoke_tests.suite_name:
     default: CF_SMOKE_TESTS
     description: A token used by the tests when creating Apps / Spaces

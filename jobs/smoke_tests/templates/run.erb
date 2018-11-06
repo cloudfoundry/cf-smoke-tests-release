@@ -2,4 +2,8 @@
 
 set -e
 
+<% if p("bpm.enabled") %>
 /var/vcap/jobs/bpm/bin/bpm run smoke_tests
+<% else %>
+/var/vcap/jobs/smoke_tests/bin/test
+<% end %>
