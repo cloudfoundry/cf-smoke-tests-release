@@ -149,6 +149,8 @@ builds:
     version: "34"
   f62191fb-9d79-4fd8-4a9c-8d31a3b392eb:
     version: "38"
+  f9088fd8-c495-4934-5909-0aa260d51874:
+    version: 40.0.35
   fff0cd44-7f8e-436f-73a9-97cff7efd450:
     version: 40.0.29
 format-version: "2"
