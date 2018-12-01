@@ -53,6 +53,8 @@ builds:
     version: "23"
   3dcf5355-5187-4f14-76fa-0a25fd222a88:
     version: 40.0.25
+  410512eb-b687-4512-5e9c-5ba0d3f2d14b:
+    version: 40.0.33
   4191be39-8658-41a2-7dbb-178a5e0d5dac:
     version: 40.0.18
   439bb091-77c4-43e0-7f43-0317d1c086b0:
