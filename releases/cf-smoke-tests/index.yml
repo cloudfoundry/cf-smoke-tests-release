@@ -25,6 +25,8 @@ builds:
     version: "20"
   213f6dac-ab0f-4a5f-733b-dff29b3e9b12:
     version: 40.0.22
+  21f18069-71a1-4f8d-775e-0b34cdd52523:
+    version: 40.0.31
   272f3533-3743-475a-75fa-bfdd89572ba8:
     version: "8"
   29c1484a-2879-478b-7fcf-efba37c9d1ab:
