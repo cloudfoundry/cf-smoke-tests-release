@@ -5,8 +5,14 @@
   "suite_name"                      : "<%= properties.smoke_tests.suite_name %>",
   "api"                             : "<%= properties.smoke_tests.api %>",
   "apps_domain"                     : "<%= Array(properties.smoke_tests.apps_domain).first %>",
-  "user"                            : "<%= properties.smoke_tests.user %>",
-  "password"                        : "<%= properties.smoke_tests.password %>",
+<% if_p("smoke_tests.client", "smoke_tests.client_secret") do |client, client_secret| %>
+  "client"                          : "<%= client %>",
+  "client_secret"                   : "<%= client_secret %>",
+<% end %>
+<% if_p("smoke_tests.user", "smoke_tests.password") do |user, password| %>
+  "user"                            : "<%= user %>",
+  "password"                        : "<%= password %>",
+<% end %>
   "org"                             : "<%= properties.smoke_tests.org %>",
   "space"                           : "<%= properties.smoke_tests.space %>",
   "use_existing_org"                : <%= properties.smoke_tests.use_existing_org %>,
