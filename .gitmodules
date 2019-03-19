@@ -1,3 +1,0 @@
-[submodule "src/smoke_tests"]
-	path = src/smoke_tests
-	url = https://github.com/cloudfoundry/cf-smoke-tests

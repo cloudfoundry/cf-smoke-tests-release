@@ -11,7 +11,5 @@ Run `bosh remove-blob` with the old blob you want to remove
 
 ## Creating a release locally
 
-Run `git submodule update --init --recursive`
-
 Run `bosh create-release` (probably with `--force`
 if you've made changes that aren't checked in)
