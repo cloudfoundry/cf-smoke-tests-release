@@ -33,6 +33,7 @@ resources:
     - releases/**
     - .final_builds/**
     - ci/**
+    - .envrc
 
 # ENV
 - name: bellatrix-env-director-state
