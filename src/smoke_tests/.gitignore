@@ -1,5 +1,0 @@
-integration_config.json
-.idea
-smoke.test
-results
-vendor/**/*_test.go
