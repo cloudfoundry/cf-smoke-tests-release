@@ -36,12 +36,12 @@ resources:
     - .envrc
 
 # ENV
-- name: bellatrix-env-director-state
+- name: relint-envs
   type: git
   source:
     branch: master
-    uri: git@github.com:cloudfoundry/bellatrix-env.git
-    private_key: ((bellatrix_env_readwrite_deploy_key.private_key))
+    uri: git@github.com:cloudfoundry/relint-envs.git
+    private_key: ((hagrid_env_readwrite_deploy_key.private_key))
 
 - name: stable-pool
   type: pool
@@ -88,12 +88,13 @@ jobs:
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release
       passed: [stable-acquire-pool]
-    - get: bellatrix-env-director-state
+    - get: relint-envs
   - task: deploy-smoke-tests-errand
     file: runtime-ci/tasks/bosh-deploy-smokes/task.yml
     input_mapping:
-      bbl-state: bellatrix-env-director-state
+      bbl-state: relint-envs
     params:
+      BBL_STATE_DIR: environments/test/bellatrix/bbl-state
       SYSTEM_DOMAIN: bellatrix.cf-app.com
 
 - name: run-smokes-errand
@@ -108,19 +109,21 @@ jobs:
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release
       passed: [deploy-updated-smokes]
-    - get: bellatrix-env-director-state
+    - get: relint-envs
   - task: run-smokes
     file: cf-deployment-concourse-tasks/run-errand/task.yml
     input_mapping:
-      bbl-state: bellatrix-env-director-state
+      bbl-state: relint-envs
     params:
+      BBL_STATE_DIR: environments/test/bellatrix/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
       ERRAND_NAME: smoke_tests
   - task: run-smokes-windows
     file: cf-deployment-concourse-tasks/run-errand/task.yml
     input_mapping:
-      bbl-state: bellatrix-env-director-state
+      bbl-state: relint-envs
     params:
+      BBL_STATE_DIR: environments/test/bellatrix/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
       ERRAND_NAME: smoke_tests_windows
 
@@ -136,12 +139,13 @@ jobs:
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release
       passed: [run-smokes-errand]
-    - get: bellatrix-env-director-state
+    - get: relint-envs
   - task: delete-smoke-tests-deployment
     file: cf-deployment-concourse-tasks/bosh-delete-deployment/task.yml
     input_mapping:
-      bbl-state: bellatrix-env-director-state
+      bbl-state: relint-envs
     params:
+      BBL_STATE_DIR: environments/test/bellatrix/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
   - put: stable-pool
     params: {release: stable-pool}
