@@ -76,7 +76,6 @@ jobs:
       params: {acquire: true}
 
 - name: deploy-updated-smokes
-  build_logs_to_retain: 100
   serial_groups: [smoke_tests]
   public: true
   plan:
@@ -98,7 +97,6 @@ jobs:
       SYSTEM_DOMAIN: bellatrix.cf-app.com
 
 - name: run-smokes-errand
-  build_logs_to_retain: 100
   serial_groups: [smoke_tests]
   public: true
   plan:
@@ -128,7 +126,6 @@ jobs:
       ERRAND_NAME: smoke_tests_windows
 
 - name: delete-smokes-deployment
-  build_logs_to_retain: 100
   serial_groups: [smoke_tests]
   public: true
   plan:
@@ -151,7 +148,6 @@ jobs:
     params: {release: stable-pool}
 
 - name: create-final-release
-  build_logs_to_retain: 100
   serial: true
   public: true
   plan:
