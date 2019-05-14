@@ -28,12 +28,25 @@ resources:
   source:
     branch: master
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
-    private_key: ((cf_smoke_tests_readwrite_deploy_key.private_key))
+    private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
     ignore_paths:
     - releases/**
     - .final_builds/**
     - ci/**
     - .envrc
+
+- name: cf-smoke-tests
+  type: git
+  source:
+    branch: master
+    uri: git@github.com:cloudfoundry/cf-smoke-tests.git
+    private_key: ((cf_smoke_tests_readwrite_deploy_key.private_key))
+
+- name: cf-test-helpers
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry-incubator/cf-test-helpers
 
 # ENV
 - name: relint-envs
@@ -63,6 +76,28 @@ resources:
     file: cf-smoke-tests-version
 
 jobs:
+- name: bump-cf-test-helpers
+  public: true
+  plan:
+  - aggregate:
+    - get: cf-smoke-tests
+    - get: runtime-ci
+    - get: cf-test-helpers
+      trigger: true
+  - task: run-cf-test-helpers-unit-tests
+    file: runtime-ci/tasks/run-cf-test-helpers-unit-tests/task.yml
+  - task: bump-cf-test-helpers
+    file: runtime-ci/tasks/bump-cf-test-helpers/task.yml
+    input_mapping:
+      repository: cf-smoke-tests
+    params:
+      USE_GO_MOD: false
+      REPOSITORY: cloudfoundry/cf-smoke-tests
+  - put: cf-smoke-tests
+    params:
+      repository: updated-repository
+      rebase: true
+
 - name: stable-acquire-pool
   public: true
   serial: true
