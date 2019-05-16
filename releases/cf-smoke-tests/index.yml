@@ -91,6 +91,8 @@ builds:
     version: "17"
   6e0989a0-0488-4971-57a9-9fcdda6991c3:
     version: "32"
+  6f353994-2a96-4760-6cfd-84e53e5b90d4:
+    version: 40.0.53
   70d32822-cde2-4bc1-5bac-a92eb0f22957:
     version: 40.0.24
   730e40c7-313b-4d6e-4a4b-c9da5004856f:
