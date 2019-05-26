@@ -289,6 +289,8 @@ builds:
     version: 40.0.59
   f9088fd8-c495-4934-5909-0aa260d51874:
     version: 40.0.35
+  fb9a595f-29e6-45fb-54fb-6a81d1970603:
+    version: 40.0.105
   fff0cd44-7f8e-436f-73a9-97cff7efd450:
     version: 40.0.29
 format-version: "2"
