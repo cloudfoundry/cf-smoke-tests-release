@@ -21,6 +21,8 @@ builds:
     version: "5"
   0b723b27-3edc-4a88-4426-c0fcb71a8984:
     version: 40.0.78
+  0f73b880-2b8d-4ee0-6eb2-509a0461dbd1:
+    version: 40.0.90
   106051cd-825a-4665-56f0-4cb69af0ae64:
     version: 40.0.87
   1254036e-107e-4621-4206-8cece777dfb0:
