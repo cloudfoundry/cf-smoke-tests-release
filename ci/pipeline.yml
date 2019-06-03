@@ -29,6 +29,13 @@ resources:
     branch: master
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
     private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
+
+- name: cf-smoke-tests-release-trigger
+  type: git
+  source:
+    branch: master
+    uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
+    private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
     ignore_paths:
     - releases/**
     - .final_builds/**
@@ -105,7 +112,7 @@ jobs:
   - get: weekly-trigger
     trigger: true
   - aggregate:
-    - get: cf-smoke-tests-release
+    - get: cf-smoke-tests-release-trigger
       trigger: true
     - put: stable-pool
       params: {acquire: true}
@@ -120,7 +127,7 @@ jobs:
   - aggregate:
     - get: runtime-ci
     - get: cf-deployment-concourse-tasks
-    - get: cf-smoke-tests-release
+    - get: cf-smoke-tests-release-trigger
       passed: [stable-acquire-pool]
     - get: relint-envs
   - task: deploy-smoke-tests-errand
@@ -140,7 +147,7 @@ jobs:
     passed: [deploy-updated-smokes]
   - aggregate:
     - get: cf-deployment-concourse-tasks
-    - get: cf-smoke-tests-release
+    - get: cf-smoke-tests-release-trigger
       passed: [deploy-updated-smokes]
     - get: relint-envs
   - task: run-smokes
@@ -169,7 +176,7 @@ jobs:
     passed: [run-smokes-errand]
   - aggregate:
     - get: cf-deployment-concourse-tasks
-    - get: cf-smoke-tests-release
+    - get: cf-smoke-tests-release-trigger
       passed: [run-smokes-errand]
     - get: relint-envs
   - task: delete-smoke-tests-deployment
@@ -188,7 +195,7 @@ jobs:
   plan:
   - aggregate:
     - get: runtime-ci
-    - get: cf-smoke-tests-release
+    - get: cf-smoke-tests-release-trigger
       trigger: true
       passed: [run-smokes-errand]
     - get: semantic-version
@@ -197,7 +204,7 @@ jobs:
   - task: create-final-release
     file: runtime-ci/tasks/create-final-release/task.yml
     input_mapping:
-      release-repo: cf-smoke-tests-release
+      release-repo: cf-smoke-tests-release-trigger
     params:
       BLOBS_BUCKET_ACCESS_KEY_ID: ((cf_release_blobs_buckets_access_key_id))
       BLOBS_BUCKET_SECRET_KEY: ((cf_release_blobs_buckets_secrect_access_key))
