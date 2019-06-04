@@ -109,26 +109,30 @@ jobs:
   public: true
   serial: true
   plan:
-  - get: weekly-trigger
-    trigger: true
   - aggregate:
+    - get: weekly-trigger
+      trigger: true
     - get: cf-smoke-tests-release-trigger
       trigger: true
-    - put: stable-pool
-      params: {acquire: true}
+  - put: stable-pool
+    params:
+      acquire: true
 
 - name: deploy-updated-smokes
-  serial_groups: [smoke_tests]
+  serial_groups:
+  - smoke_tests
   public: true
   plan:
-  - get: stable-pool
-    trigger: true
-    passed: [stable-acquire-pool]
   - aggregate:
+    - get: stable-pool
+      trigger: true
+      passed:
+      - stable-acquire-pool
     - get: runtime-ci
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
-      passed: [stable-acquire-pool]
+      passed:
+      - stable-acquire-pool
     - get: relint-envs
   - task: deploy-smoke-tests-errand
     file: runtime-ci/tasks/bosh-deploy-smokes/task.yml
@@ -140,16 +144,19 @@ jobs:
       SYSTEM_DOMAIN: bellatrix.cf-app.com
 
 - name: run-smokes-errand
-  serial_groups: [smoke_tests]
+  serial_groups:
+  - smoke_tests
   public: true
   plan:
-  - get: stable-pool
-    trigger: true
-    passed: [deploy-updated-smokes]
   - aggregate:
+    - get: stable-pool
+      trigger: true
+      passed:
+      - deploy-updated-smokes
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
-      passed: [deploy-updated-smokes]
+      passed:
+      - deploy-updated-smokes
     - get: relint-envs
   - task: run-smokes
     file: cf-deployment-concourse-tasks/run-errand/task.yml
@@ -169,16 +176,19 @@ jobs:
       ERRAND_NAME: smoke_tests_windows
 
 - name: delete-smokes-deployment
-  serial_groups: [smoke_tests]
+  serial_groups:
+  - smoke_tests
   public: true
   plan:
-  - get: stable-pool
-    trigger: true
-    passed: [run-smokes-errand]
   - aggregate:
+    - get: stable-pool
+      trigger: true
+      passed:
+      - run-smokes-errand
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
-      passed: [run-smokes-errand]
+      passed:
+      - run-smokes-errand
     - get: relint-envs
   - task: delete-smoke-tests-deployment
     file: cf-deployment-concourse-tasks/bosh-delete-deployment/task.yml
@@ -188,7 +198,8 @@ jobs:
       BBL_STATE_DIR: environments/test/bellatrix/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
   - put: stable-pool
-    params: {release: stable-pool}
+    params:
+      release: stable-pool
 
 - name: create-final-release
   serial: true
@@ -198,10 +209,12 @@ jobs:
     - get: runtime-ci
     - get: cf-smoke-tests-release-trigger
       trigger: true
-      passed: [run-smokes-errand]
+      passed:
+      - run-smokes-errand
     - get: semantic-version
       resource: cf-smoke-tests-version
-      params: {bump: patch}
+      params:
+        bump: patch
   - task: create-final-release
     file: runtime-ci/tasks/create-final-release/task.yml
     input_mapping:
@@ -215,4 +228,5 @@ jobs:
       rebase: true
       tag: semantic-version/version
   - put: cf-smoke-tests-version
-    params: {bump: patch}
+    params:
+      bump: patch
