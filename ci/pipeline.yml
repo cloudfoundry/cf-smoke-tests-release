@@ -114,6 +114,7 @@ jobs:
       trigger: true
     - get: cf-smoke-tests-release-trigger
       trigger: true
+    - get: cf-smoke-tests-release
   - put: stable-pool
     params:
       acquire: true
@@ -131,6 +132,9 @@ jobs:
     - get: runtime-ci
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
+      passed:
+      - stable-acquire-pool
+    - get: cf-smoke-tests-release
       passed:
       - stable-acquire-pool
     - get: relint-envs
@@ -155,6 +159,9 @@ jobs:
       - deploy-updated-smokes
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
+      passed:
+      - deploy-updated-smokes
+    - get: cf-smoke-tests-release
       passed:
       - deploy-updated-smokes
     - get: relint-envs
@@ -189,6 +196,9 @@ jobs:
     - get: cf-smoke-tests-release-trigger
       passed:
       - run-smokes-errand
+    - get: cf-smoke-tests-release
+      passed:
+      - run-smokes-errand
     - get: relint-envs
   - task: delete-smoke-tests-deployment
     file: cf-deployment-concourse-tasks/bosh-delete-deployment/task.yml
@@ -211,6 +221,9 @@ jobs:
       trigger: true
       passed:
       - run-smokes-errand
+    - get: cf-smoke-tests-release
+      passed:
+      - run-smokes-errand
     - get: semantic-version
       resource: cf-smoke-tests-version
       params:
@@ -218,7 +231,7 @@ jobs:
   - task: create-final-release
     file: runtime-ci/tasks/create-final-release/task.yml
     input_mapping:
-      release-repo: cf-smoke-tests-release-trigger
+      release-repo: cf-smoke-tests-release
     params:
       BLOBS_BUCKET_ACCESS_KEY_ID: ((cf_release_blobs_buckets_access_key_id))
       BLOBS_BUCKET_SECRET_KEY: ((cf_release_blobs_buckets_secrect_access_key))
