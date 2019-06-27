@@ -86,7 +86,7 @@ jobs:
 - name: bump-cf-test-helpers
   public: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: cf-smoke-tests
     - get: runtime-ci
     - get: cf-test-helpers
@@ -109,7 +109,7 @@ jobs:
   public: true
   serial: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: weekly-trigger
       trigger: true
     - get: cf-smoke-tests-release-trigger
@@ -124,7 +124,7 @@ jobs:
   - smoke_tests
   public: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: stable-pool
       trigger: true
       passed:
@@ -152,7 +152,7 @@ jobs:
   - smoke_tests
   public: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: stable-pool
       trigger: true
       passed:
@@ -187,7 +187,7 @@ jobs:
   - smoke_tests
   public: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: stable-pool
       trigger: true
       passed:
@@ -215,7 +215,7 @@ jobs:
   serial: true
   public: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: runtime-ci
     - get: cf-smoke-tests-release-trigger
       trigger: true
