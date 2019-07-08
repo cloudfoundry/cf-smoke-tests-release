@@ -142,7 +142,6 @@ jobs:
     file: runtime-ci/tasks/bosh-deploy-smokes/task.yml
     input_mapping:
       bbl-state: relint-envs
-      cf-smoke-tests-release: cf-smoke-tests-release-trigger
     params:
       BBL_STATE_DIR: environments/test/bellatrix/bbl-state
       SYSTEM_DOMAIN: bellatrix.cf-app.com
