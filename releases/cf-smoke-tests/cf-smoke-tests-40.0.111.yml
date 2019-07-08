@@ -1,0 +1,51 @@
+name: cf-smoke-tests
+version: 40.0.111
+commit_hash: b5ca83c
+uncommitted_changes: false
+jobs:
+- name: smoke_tests
+  version: 44fad3eb15196217e591458f1e59f7301219898c252324c098e98a0a2265ee81
+  fingerprint: 44fad3eb15196217e591458f1e59f7301219898c252324c098e98a0a2265ee81
+  sha1: sha256:79cd53dbcc47dc776b11559e5bf31caec721086f8e0351445d26c820fa548ed6
+  packages:
+  - golang
+  - smoke_tests
+- name: smoke_tests_windows
+  version: 368f6cc540bbb3226b9430297ff36c861052e2abfa7646433f4cc0a8c8af9688
+  fingerprint: 368f6cc540bbb3226b9430297ff36c861052e2abfa7646433f4cc0a8c8af9688
+  sha1: sha256:5d8f89a2c85a86eb9a41668981ab13a93db5c00b35e55f40e76a0c987ec6bb38
+  packages:
+  - golang_windows
+  - cf_cli_windows
+  - smoke_tests_windows
+packages:
+- name: cf_cli_windows
+  version: 051cdedb5f3fe39c84811b8c8e46acba1b262912534d41f5bce2e38fefc2be6f
+  fingerprint: 051cdedb5f3fe39c84811b8c8e46acba1b262912534d41f5bce2e38fefc2be6f
+  sha1: sha256:0fe281f0e614f5098dab9216d19d37cb9734da8fefab82307f7da7460a8e0f78
+  dependencies: []
+- name: golang
+  version: 9f9e0d7c82a56c62a8622beb6816183bde2c93408f929d3e8d657acbd23b0428
+  fingerprint: 9f9e0d7c82a56c62a8622beb6816183bde2c93408f929d3e8d657acbd23b0428
+  sha1: sha256:b2850216795aa67aad5bac4f45aa7ce096591fa2b9f3e917b7dd99ecd69519ab
+  dependencies: []
+- name: golang_windows
+  version: 878c691b26900803d8ad1335fc2a57f81e9c441539f317d917de3908d63bed6f
+  fingerprint: 878c691b26900803d8ad1335fc2a57f81e9c441539f317d917de3908d63bed6f
+  sha1: sha256:9e4fa1ebb9991776e732820571ed8980d77c29f8c690a25d5c0fd973e326709f
+  dependencies: []
+- name: smoke_tests
+  version: 6e4dbdc493c0f497f6cf7be02c376d65e65466d4594b21f446acb4fd8145ca75
+  fingerprint: 6e4dbdc493c0f497f6cf7be02c376d65e65466d4594b21f446acb4fd8145ca75
+  sha1: sha256:dcf709a88040779314a0caf335352921d4e7f7ae4a361fce877f0c96b27fa2b3
+  dependencies:
+  - golang
+- name: smoke_tests_windows
+  version: d350d57dff67baf9db2e2ed2d92ab1acaa86666d57d906836a22f669190308b7
+  fingerprint: d350d57dff67baf9db2e2ed2d92ab1acaa86666d57d906836a22f669190308b7
+  sha1: sha256:ab446cba5d8b2b84325b3ba2b13239fd2d288319c38dc63f110f3c982a92464f
+  dependencies: []
+license:
+  version: 9f36cb7e1d85cafcd01133207da29d6dc658f7c98b6f1dd1f8630702a4e03964
+  fingerprint: 9f36cb7e1d85cafcd01133207da29d6dc658f7c98b6f1dd1f8630702a4e03964
+  sha1: sha256:b45d9bbd8436f2415fc36b7d0ef3224fc5214c8c54939710c28d97934d64bd82
