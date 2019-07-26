@@ -3,6 +3,7 @@ resources:
 # Weekly Trigger
 - name: weekly-trigger
   type: time
+  icon: clock-outline
   source:
     start: 3:00
     stop: 4:30
@@ -12,12 +13,14 @@ resources:
 # Concourse Tasks
 - name: cf-deployment-concourse-tasks
   type: git
+  icon: github-box
   source:
     branch: master
     uri: https://github.com/cloudfoundry/cf-deployment-concourse-tasks.git
 
 - name: runtime-ci
   type: git
+  icon: github-box
   source:
     branch: master
     uri: https://github.com/cloudfoundry/runtime-ci.git
@@ -25,6 +28,7 @@ resources:
 # Releases
 - name: cf-smoke-tests-release
   type: git
+  icon: github-box
   source:
     branch: master
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
@@ -32,6 +36,7 @@ resources:
 
 - name: cf-smoke-tests-release-trigger
   type: git
+  icon: github-box
   source:
     branch: master
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
@@ -44,6 +49,7 @@ resources:
 
 - name: cf-smoke-tests
   type: git
+  icon: github-box
   source:
     branch: master
     uri: git@github.com:cloudfoundry/cf-smoke-tests.git
@@ -51,6 +57,7 @@ resources:
 
 - name: cf-test-helpers
   type: git
+  icon: github-box
   source:
     branch: master
     uri: https://github.com/cloudfoundry-incubator/cf-test-helpers
@@ -58,6 +65,7 @@ resources:
 # ENV
 - name: relint-envs
   type: git
+  icon: github-box
   source:
     branch: master
     uri: git@github.com:cloudfoundry/relint-envs.git
@@ -65,6 +73,7 @@ resources:
 
 - name: stable-pool
   type: pool
+  icon: pool
   source:
     uri: git@github.com:cloudfoundry/relint-ci-pools
     branch: master
