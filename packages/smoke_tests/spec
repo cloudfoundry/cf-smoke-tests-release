@@ -1,7 +1,7 @@
 ---
 name: smoke_tests
 dependencies:
-  - golang
+  - golang-1.12-linux
 files:
   - smoke_tests/**/*
 excluded_files:

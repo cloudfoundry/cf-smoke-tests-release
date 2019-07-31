@@ -1,8 +1,0 @@
----
-name: golang_windows
-
-dependencies: []
-
-files:
-    - exiter.ps1
-    - golang/go*.windows-amd64.zip
