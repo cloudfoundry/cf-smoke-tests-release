@@ -4,7 +4,7 @@ name: smoke_tests_windows
 description: "The smoke tests errand can be configured to run quick set of tests against a specific Cloud Foundry API endpoint to determine is basic push-application functionality works. Consider running the acceptance tests errand for a more extensive set of tests."
 
 packages:
-  - golang_windows
+  - golang-1.12-windows
   - cf_cli_windows
   - smoke_tests_windows
 
