@@ -7,6 +7,7 @@ cp -a smoke_tests/* ${REPO_DIR}
 
 export GOPATH=${BOSH_INSTALL_TARGET}
 export GOROOT=$(readlink -nf /var/vcap/packages/golang-1.12-linux)
+export GOCACHE=/var/vcap/data/golang-1.12-linux/cache
 
 export PATH=$GOROOT/bin:$PATH
 export PATH=${GOPATH}/bin:${PATH}
