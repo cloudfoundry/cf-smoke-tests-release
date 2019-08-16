@@ -154,6 +154,7 @@ jobs:
     params:
       BBL_STATE_DIR: environments/test/bellatrix/bbl-state
       SYSTEM_DOMAIN: bellatrix.cf-app.com
+      CREDHUB_ENV_NAME: bosh-bellatrix-stable
 
 - name: run-smokes-errand
   serial_groups:
