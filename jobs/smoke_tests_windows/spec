@@ -54,7 +54,7 @@ properties:
     default: true
     description: Toggles a portion of the suite that exercises Windows platform support
   smoke_tests.windows_stack:
-    default: windows2016
+    default: windows
     description: Specifies the Windows stack on which the Windows tests will run if enable_windows_tests is true
   smoke_tests.artifacts_directory:
     description: The directory in which to store test CF_TRACE output
