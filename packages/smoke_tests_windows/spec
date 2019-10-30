@@ -1,7 +1,7 @@
 ---
 name: smoke_tests_windows
 dependencies:
-  - golang-1.12-windows
+  - golang-1.13-windows
 files:
   - smoke_tests/**/*
   - exiter.ps1
