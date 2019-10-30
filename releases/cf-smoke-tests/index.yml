@@ -43,6 +43,8 @@ builds:
     version: 1.0.1
   16c6e7c1-81f7-4c2e-4bd8-d01cb87822ad:
     version: 40.0.41
+  1727d379-a72c-4a53-5f12-a07728b745d2:
+    version: 40.0.123
   1ad4a307-b850-4ea6-7dfa-ce7db19ad662:
     version: "6"
   1ae00dc0-74f3-4f33-6c00-67533f514fad:
