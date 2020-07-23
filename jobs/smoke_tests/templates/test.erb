@@ -5,7 +5,7 @@ set -e
 export GOROOT=$(readlink -nf /var/vcap/packages/golang-1.13-linux)
 export GOPATH=/var/vcap/packages/smoke_tests
 export PATH=${GOROOT}/bin:${PATH}
-export PATH=/var/vcap/packages/cf-cli-6-linux/bin:${PATH} # put the cli on the path
+export PATH=/var/vcap/packages/cf-cli-7-linux/bin:${PATH} # put the cli on the path
 export PATH=${GOPATH}/bin:${PATH}
 
 export CONFIG=/var/vcap/jobs/smoke_tests/config/config.json

@@ -5,4 +5,4 @@ dependencies: []
 
 files:
     - exiter.ps1
-    - cf-cli_*_windows_x86-64.zip
+    - cf7-cli_*_winx64.zip

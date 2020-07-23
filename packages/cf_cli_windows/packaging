@@ -5,6 +5,6 @@ trap { $host.SetShouldExit(1) }
 
 $BOSH_INSTALL_TARGET = Resolve-Path $env:BOSH_INSTALL_TARGET
 
-$path=(Get-ChildItem "cf-cli_*_windows_x86-64.zip").FullName
+$path=(Get-ChildItem "cf7-cli_*_winx64.zip").FullName
 
 Expand-Archive -Path $path -DestinationPath ${BOSH_INSTALL_TARGET} -Force
