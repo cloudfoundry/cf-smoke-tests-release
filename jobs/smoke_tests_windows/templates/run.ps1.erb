@@ -2,6 +2,7 @@ $ErrorActionPreference = "Stop";
 trap { $host.SetShouldExit(1) }
 
 $env:PATH="c:\var\vcap\packages\cf_cli_windows;$env:PATH"
+Move-Item -Path C:\var\vcap\packages\cf_cli_windows\cf7.exe -Destination C:\var\vcap\packages\cf_cli_windows\cf.exe
 cf.exe version
 
 $env:GOROOT="C:\var\vcap\packages\golang-1.13-windows\go"
