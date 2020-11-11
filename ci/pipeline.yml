@@ -30,7 +30,7 @@ resources:
   type: git
   icon: github-box
   source:
-    branch: master
+    branch: main
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
     private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
 
@@ -38,7 +38,7 @@ resources:
   type: git
   icon: github-box
   source:
-    branch: master
+    branch: main
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
     private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
     ignore_paths:
