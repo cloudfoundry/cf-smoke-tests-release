@@ -51,7 +51,7 @@ resources:
   type: git
   icon: github-box
   source:
-    branch: master
+    branch: main
     uri: git@github.com:cloudfoundry/cf-smoke-tests.git
     private_key: ((cf_smoke_tests_readwrite_deploy_key.private_key))
 
