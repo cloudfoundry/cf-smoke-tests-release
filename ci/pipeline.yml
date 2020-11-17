@@ -13,14 +13,13 @@ resources:
 # Concourse Tasks
 - name: cf-deployment-concourse-tasks
   type: git
-  icon: github-box
+  icon: github
   source:
-    branch: master
     uri: https://github.com/cloudfoundry/cf-deployment-concourse-tasks.git
 
 - name: runtime-ci
   type: git
-  icon: github-box
+  icon: github
   source:
     branch: main
     uri: https://github.com/cloudfoundry/runtime-ci.git
@@ -28,17 +27,15 @@ resources:
 # Releases
 - name: cf-smoke-tests-release
   type: git
-  icon: github-box
+  icon: github
   source:
-    branch: main
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
     private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
 
 - name: cf-smoke-tests-release-trigger
   type: git
-  icon: github-box
+  icon: github
   source:
-    branch: main
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
     private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
     ignore_paths:
@@ -49,15 +46,14 @@ resources:
 
 - name: cf-smoke-tests
   type: git
-  icon: github-box
+  icon: github
   source:
-    branch: main
     uri: git@github.com:cloudfoundry/cf-smoke-tests.git
     private_key: ((cf_smoke_tests_readwrite_deploy_key.private_key))
 
 - name: cf-test-helpers
   type: git
-  icon: github-box
+  icon: github
   source:
     branch: master
     uri: https://github.com/cloudfoundry-incubator/cf-test-helpers
@@ -65,9 +61,8 @@ resources:
 # ENV
 - name: relint-envs
   type: git
-  icon: github-box
-  source:
-    branch: main
+  icon: github
+  source:    
     uri: git@github.com:cloudfoundry/relint-envs.git
     private_key: ((hagrid_env_readwrite_deploy_key.private_key))
 
