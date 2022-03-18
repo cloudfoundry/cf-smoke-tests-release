@@ -35,10 +35,10 @@ Make sure the repo is on a branch with the new go version.
 
 Next follow the steps, but it should be just running:
 
-`bosh vendor-package golang-1.12-windows <path to the golang-release>`
+`bosh vendor-package golang-1.x-windows <path to the golang-release>`
 
 and
 
-`bosh vendor-package golang-1.12-linux <path to the golang-release>`
+`bosh vendor-package golang-1.x-linux <path to the golang-release>`
 
 Then commit.
