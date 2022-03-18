@@ -63,17 +63,17 @@ resources:
 - name: relint-envs
   type: git
   icon: github
-  source:    
+  source:
     uri: git@github.com:cloudfoundry/relint-envs.git
     private_key: ((hagrid_env_readwrite_deploy_key.private_key))
 
-- name: stable-pool
+- name: cats-pool
   type: pool
   icon: pool
   source:
     uri: git@github.com:cloudfoundry/relint-ci-pools
     branch: main
-    pool: cf-deployment/stable
+    pool: cats
     private_key: ((relint_ci_pools_readwrite_deploy_key.private_key))
 
 # Semantic Version
@@ -125,7 +125,7 @@ jobs:
       repository: updated-cf-smoke-tests-release
       rebase: true
 
-- name: stable-acquire-pool
+- name: cats-acquire-pool
   public: true
   serial: true
   plan:
@@ -135,7 +135,7 @@ jobs:
     - get: cf-smoke-tests-release-trigger
       trigger: true
     - get: cf-smoke-tests-release
-  - put: stable-pool
+  - put: cats-pool
     params:
       acquire: true
 
@@ -145,27 +145,27 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: stable-pool
+    - get: cats-pool
       trigger: true
       passed:
-      - stable-acquire-pool
+      - cats-acquire-pool
     - get: runtime-ci
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
       passed:
-      - stable-acquire-pool
+      - cats-acquire-pool
     - get: cf-smoke-tests-release
       passed:
-      - stable-acquire-pool
+      - cats-acquire-pool
     - get: relint-envs
   - task: deploy-smoke-tests-errand
     file: runtime-ci/tasks/bosh-deploy-smokes/task.yml
     input_mapping:
       bbl-state: relint-envs
     params:
-      BBL_STATE_DIR: environments/test/bellatrix/bbl-state
-      SYSTEM_DOMAIN: bellatrix.cf-app.com
-      CREDHUB_ENV_NAME: bosh-bellatrix-stable
+      BBL_STATE_DIR: environments/test/cats/bbl-state
+      SYSTEM_DOMAIN: cats.cf-app.com
+      CREDHUB_ENV_NAME: bosh-cats
 
 - name: run-smokes-errand
   serial_groups:
@@ -173,7 +173,7 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: stable-pool
+    - get: cats-pool
       trigger: true
       passed:
       - deploy-updated-smokes
@@ -190,7 +190,7 @@ jobs:
     input_mapping:
       bbl-state: relint-envs
     params:
-      BBL_STATE_DIR: environments/test/bellatrix/bbl-state
+      BBL_STATE_DIR: environments/test/cats/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
       ERRAND_NAME: smoke_tests
   - task: run-smokes-windows
@@ -198,7 +198,7 @@ jobs:
     input_mapping:
       bbl-state: relint-envs
     params:
-      BBL_STATE_DIR: environments/test/bellatrix/bbl-state
+      BBL_STATE_DIR: environments/test/cats/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
       ERRAND_NAME: smoke_tests_windows
 
@@ -208,7 +208,7 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: stable-pool
+    - get: cats-pool
       trigger: true
       passed:
       - run-smokes-errand
@@ -225,11 +225,11 @@ jobs:
     input_mapping:
       bbl-state: relint-envs
     params:
-      BBL_STATE_DIR: environments/test/bellatrix/bbl-state
+      BBL_STATE_DIR: environments/test/cats/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
-  - put: stable-pool
+  - put: cats-pool
     params:
-      release: stable-pool
+      release: cats-pool
 
 - name: create-final-release
   serial: true
