@@ -30,6 +30,7 @@ resources:
   icon: github
   source:
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
+    branch: main
     private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
 
 - name: cf-smoke-tests-release-trigger
