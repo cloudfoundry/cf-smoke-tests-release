@@ -14,5 +14,5 @@ export PATH=${GOPATH}/bin:${PATH}
 
 cd ${BOSH_INSTALL_TARGET}/src
 
-go install github.com/cloudfoundry/cf-smoke-tests/vendor/github.com/onsi/ginkgo/ginkgo
+go install github.com/cloudfoundry/cf-smoke-tests/vendor/github.com/onsi/ginkgo/ginkgo@latest
 ginkgo build -r github.com/cloudfoundry/cf-smoke-tests
