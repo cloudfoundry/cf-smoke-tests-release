@@ -87,6 +87,11 @@ resources:
     git_user: "CF MEGA BOT <cf-mega@pivotal.io>"
     file: cf-smoke-tests-version
 
+- name: windows2019-stemcell
+  type: bosh-io-stemcell
+  source:
+    name: bosh-google-kvm-windows2019-go_agent
+
 jobs:
 - name: bump-cf-test-helpers
   public: true
@@ -158,6 +163,14 @@ jobs:
       passed:
       - cats-acquire-pool
     - get: relint-envs
+    - get: windows2019-stemcell
+  - task: upload-windows2019-stemcell
+    file: runtime-ci/tasks/bosh-upload-stemcell/task.yml
+    input_mapping:
+      bbl-state: relint-envs
+      stemcell: windows2019-stemcell
+    params:
+      BBL_STATE_DIR: environments/test/cats/bbl-state
   - task: deploy-smoke-tests-errand
     file: runtime-ci/tasks/bosh-deploy-smokes/task.yml
     input_mapping:
