@@ -1,6 +1,6 @@
 set -ex
 
-REPO_DIR=${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry/cf-smoke-tests
+REPO_DIR=${BOSH_INSTALL_TARGET}/src/smoke_tests
 mkdir -p ${REPO_DIR}
 
 cp -a smoke_tests/* ${REPO_DIR}
@@ -9,10 +9,10 @@ export GOPATH=${BOSH_INSTALL_TARGET}
 export GOROOT=$(readlink -nf /var/vcap/packages/golang-1.17-linux)
 export GOCACHE=/var/vcap/data/golang-1.17-linux/cache
 
-export PATH=$GOROOT/bin:$PATH
+export PATH=${GOROOT}/bin:${PATH}
 export PATH=${GOPATH}/bin:${PATH}
 
-cd ${BOSH_INSTALL_TARGET}/src
+cd ${BOSH_INSTALL_TARGET}/src/smoke_tests
 
-go install github.com/cloudfoundry/cf-smoke-tests/vendor/github.com/onsi/ginkgo/ginkgo@latest
-ginkgo build -r github.com/cloudfoundry/cf-smoke-tests
+go install github.com/onsi/ginkgo/ginkgo
+ginkgo build -r .
