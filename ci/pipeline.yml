@@ -21,8 +21,8 @@ resources:
   type: git
   icon: github
   source:
-    branch: main
     uri: https://github.com/cloudfoundry/runtime-ci.git
+    branch: main
 
 # Releases
 - name: cf-smoke-tests-release
@@ -50,14 +50,15 @@ resources:
   icon: github
   source:
     uri: git@github.com:cloudfoundry/cf-smoke-tests.git
+    branch: main
     private_key: ((cf_smoke_tests_readwrite_deploy_key.private_key))
 
 - name: cf-test-helpers
   type: git
   icon: github
   source:
-    branch: main
     uri: https://github.com/cloudfoundry/cf-test-helpers
+    branch: main
 
 # ENV
 - name: relint-envs
@@ -101,8 +102,10 @@ jobs:
     - get: runtime-ci
     - get: cf-test-helpers
       trigger: true
+
   - task: run-cf-test-helpers-unit-tests
     file: runtime-ci/tasks/run-cf-test-helpers-unit-tests/task.yml
+
   - task: bump-cf-test-helpers
     file: runtime-ci/tasks/bump-cf-test-helpers/task.yml
     input_mapping:
@@ -110,6 +113,7 @@ jobs:
     params:
       USE_GO_MOD: true
       REPOSITORY: cloudfoundry/cf-smoke-tests
+
   - put: cf-smoke-tests
     params:
       repository: updated-repository
@@ -123,8 +127,10 @@ jobs:
     - get: runtime-ci
     - get: cf-smoke-tests
       trigger: true
+
   - task: bump-cf-smoke-tests
     file: runtime-ci/tasks/bump-cf-smoke-tests/task.yml
+
   - put: cf-smoke-tests-release
     params:
       repository: updated-cf-smoke-tests-release
@@ -140,6 +146,7 @@ jobs:
     - get: cf-smoke-tests-release-trigger
       trigger: true
     - get: cf-smoke-tests-release
+
   - put: cats-pool
     params:
       acquire: true
@@ -164,6 +171,7 @@ jobs:
       - cats-acquire-pool
     - get: relint-envs
     - get: windows2019-stemcell
+
   - task: upload-windows2019-stemcell
     file: runtime-ci/tasks/bosh-upload-stemcell/task.yml
     input_mapping:
@@ -171,6 +179,7 @@ jobs:
       stemcell: windows2019-stemcell
     params:
       BBL_STATE_DIR: environments/test/cats/bbl-state
+
   - task: deploy-smoke-tests-errand
     file: runtime-ci/tasks/bosh-deploy-smokes/task.yml
     input_mapping:
@@ -198,6 +207,7 @@ jobs:
       passed:
       - deploy-updated-smokes
     - get: relint-envs
+
   - task: run-smokes
     file: cf-deployment-concourse-tasks/run-errand/task.yml
     input_mapping:
@@ -206,6 +216,7 @@ jobs:
       BBL_STATE_DIR: environments/test/cats/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
       ERRAND_NAME: smoke_tests
+
   - task: run-smokes-windows
     file: cf-deployment-concourse-tasks/run-errand/task.yml
     input_mapping:
@@ -233,6 +244,7 @@ jobs:
       passed:
       - run-smokes-errand
     - get: relint-envs
+
   - task: delete-smoke-tests-deployment
     file: cf-deployment-concourse-tasks/bosh-delete-deployment/task.yml
     input_mapping:
@@ -240,6 +252,7 @@ jobs:
     params:
       BBL_STATE_DIR: environments/test/cats/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
+
   - put: cats-pool
     params:
       release: cats-pool
@@ -249,30 +262,31 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: runtime-ci
     - get: cf-smoke-tests-release-trigger
-      trigger: true
       passed:
       - run-smokes-errand
+      trigger: true
     - get: cf-smoke-tests-release
       passed:
       - run-smokes-errand
-    - get: semantic-version
-      resource: cf-smoke-tests-version
-      params:
-        bump: patch
+    - get: cf-smoke-tests-version
+    - get: runtime-ci
+
   - task: create-final-release
     file: runtime-ci/tasks/create-final-release/task.yml
     input_mapping:
       release-repo: cf-smoke-tests-release
+      semantic-version: cf-smoke-tests-version
     params:
       BLOBS_BUCKET_ACCESS_KEY_ID: ((cf_release_blobs_buckets_access_key_id))
       BLOBS_BUCKET_SECRET_KEY: ((cf_release_blobs_buckets_secrect_access_key))
+
   - put: cf-smoke-tests-release
     params:
       repository: final-release-repo
       rebase: true
       tag: semantic-version/version
+
   - put: cf-smoke-tests-version
     params:
       bump: patch
