@@ -285,7 +285,7 @@ jobs:
     params:
       repository: final-release-repo
       rebase: true
-      tag: semantic-version/version
+      tag: cf-smoke-tests-version/version
 
   - put: cf-smoke-tests-version
     params:
