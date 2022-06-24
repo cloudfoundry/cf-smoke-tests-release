@@ -22,4 +22,4 @@ TEST_BINARIES=$(ls smoke/**/*.test)
 
 echo "Running binaries ${TEST_BINARIES}"
 
-ginkgo --succinct -slowSpecThreshold=300 -p <%= properties.smoke_tests.ginkgo_opts %> ${TEST_BINARIES}
+ginkgo --succinct --slow-spec-threshold=300s -p <%= properties.smoke_tests.ginkgo_opts %> ${TEST_BINARIES}

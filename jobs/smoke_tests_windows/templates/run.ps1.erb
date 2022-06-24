@@ -15,7 +15,7 @@ cd c:\var\vcap\packages\smoke_tests_windows\src\github.com\cloudfoundry\cf-smoke
 New-Item -Path "$env:GOPATH\src" -ItemType Directory -Force
 Copy-Item -Recurse -Force ".\vendor\*" "$env:GOPATH\src\"
 
-go.exe install github.com/onsi/ginkgo/ginkgo
+go.exe install github.com/onsi/ginkgo/v2/ginkgo
 
 $env:CONFIG="c:\var\vcap\jobs\smoke_tests_windows\bin\config.json"
 <% if_p("smoke_tests.cf_dial_timeout_in_seconds") do |timeout| %>

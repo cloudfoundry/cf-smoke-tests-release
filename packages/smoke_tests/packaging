@@ -14,5 +14,5 @@ export PATH=${GOPATH}/bin:${PATH}
 
 cd ${BOSH_INSTALL_TARGET}/src/smoke_tests
 
-go install github.com/onsi/ginkgo/ginkgo
+go install github.com/onsi/ginkgo/v2/ginkgo
 ginkgo build -r .
