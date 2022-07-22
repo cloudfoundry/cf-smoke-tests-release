@@ -1,0 +1,16 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: bosh/golang-release
+
+inputs:
+- name: cf-smoke-tests-release
+
+outputs:
+- name: version
+
+run:
+  path: cf-smoke-tests-release/ci/tasks/get-submodule-go-version/task.sh
