@@ -2,7 +2,7 @@
 
 set -e
 
-export GOROOT=$(readlink -nf /var/vcap/packages/golang-1.18-linux)
+export GOROOT=$(readlink -nf /var/vcap/packages/golang-1-linux)
 export GOPATH=/var/vcap/packages/smoke_tests
 export PATH=${GOROOT}/bin:${PATH}
 export PATH=/var/vcap/packages/cf-cli-8-linux/bin:${PATH} # put the cli on the path
