@@ -1,6 +1,26 @@
 ---
+groups:
+- name: update-dependencies
+  jobs:
+  - update-cf-smoke-tests
+  - update-cf-smoke-tests-release
+- name: test-and-release
+  jobs:
+  - claim-cats-pool
+  - deploy-updated-smokes
+  - run-smokes-errand
+  - delete-smokes-deployment
+  - create-final-release
+
+release_lock: &release_lock_if_not_success
+  on_failure: &release_lock
+    put: cats-pool
+    params:
+      release: cats-pool
+  on_error: *release_lock
+  on_abort: *release_lock
+
 resources:
-# Weekly Trigger
 - name: weekly-trigger
   type: time
   icon: clock-outline
@@ -10,7 +30,6 @@ resources:
     location: America/Los_Angeles
     interval: 168h
 
-# Concourse Tasks
 - name: cf-deployment-concourse-tasks
   type: git
   icon: github
@@ -24,7 +43,6 @@ resources:
     uri: https://github.com/cloudfoundry/runtime-ci.git
     branch: main
 
-# Releases
 - name: cf-smoke-tests-release
   type: git
   icon: github
@@ -60,7 +78,6 @@ resources:
     uri: https://github.com/cloudfoundry/cf-test-helpers
     branch: main
 
-# ENV
 - name: relint-envs
   type: git
   icon: github
@@ -77,7 +94,6 @@ resources:
     pool: cats
     private_key: ((relint_ci_pools_readwrite_deploy_key.private_key))
 
-# Semantic Version
 - name: cf-smoke-tests-version
   type: semver
   source:
@@ -93,50 +109,94 @@ resources:
   source:
     name: bosh-google-kvm-windows2019-go_agent
 
+- name: golang-release
+  type: git
+  source:
+    uri: https://github.com/bosh-packages/golang-release.git
+
 jobs:
-- name: bump-cf-test-helpers
+- name: update-cf-smoke-tests
+  serial: true
   public: true
+  serial_groups: [update-dependencies]
   plan:
   - in_parallel:
-    - get: cf-smoke-tests
-    - get: runtime-ci
+    - get: golang-release
+      trigger: true
     - get: cf-test-helpers
       trigger: true
-
+    - get: runtime-ci
+    - get: cf-smoke-tests
+  - task: bump-go-deps
+    file: golang-release/ci/tasks/shared/bump-deps.yml
+    input_mapping:
+      input_repo: cf-smoke-tests
+    output_mapping:
+      output_repo: cf-smoke-tests
+    params:
+      SOURCE_PATH: .
   - task: run-cf-test-helpers-unit-tests
     file: runtime-ci/tasks/run-cf-test-helpers-unit-tests/task.yml
-
   - task: bump-cf-test-helpers
     file: runtime-ci/tasks/bump-cf-test-helpers/task.yml
     input_mapping:
       repository: cf-smoke-tests
+    output_mapping:
+      updated-repository: cf-smoke-tests
     params:
       USE_GO_MOD: true
       REPOSITORY: cloudfoundry/cf-smoke-tests
-
   - put: cf-smoke-tests
     params:
-      repository: updated-repository
+      repository: cf-smoke-tests
       rebase: true
 
-- name: bump-cf-smoke-tests
+- name: update-cf-smoke-tests-release
+  serial: true
   public: true
+  serial_groups: [update-dependencies]
   plan:
   - in_parallel:
-    - get: cf-smoke-tests-release
-    - get: runtime-ci
     - get: cf-smoke-tests
       trigger: true
-
-  - task: bump-cf-smoke-tests
+    - get: golang-release
+      trigger: true
+      passed: [update-cf-smoke-tests]
+    - get: runtime-ci
+    - get: cf-smoke-tests-release
+  - task: bump-cf-smoke-tests-submodule
     file: runtime-ci/tasks/bump-cf-smoke-tests/task.yml
-
+    output_mapping:
+      updated-cf-smoke-tests-release: cf-smoke-tests-release
+  - task: get-submodule-go-version
+    file: cf-smoke-tests-release/ci/tasks/get-submodule-go-version/task.yml
+  - load_var: go_version
+    file: version/version
+  - task: bump-release-go-package
+    file: golang-release/ci/tasks/shared/bump-golang-package.yml
+    input_mapping:
+      input_repo: cf-smoke-tests-release
+    output_mapping:
+      output_repo: cf-smoke-tests-release
+    params:
+      PACKAGES: [golang-((.:go_version))-linux, golang-((.:go_version))-windows]
+      PRIVATE_YML: |
+        ---
+        blobstore:
+          provider: s3
+          options:
+            access_key_id: ((aws_access_key_id))
+            secret_access_key: ((aws_secret_access_key))
+  - task: bump-release-go-references
+    file: cf-smoke-tests-release/ci/tasks/bump-release-go-references/task.yml
+    params:
+      GO_VERSION: ((.:go_version))
   - put: cf-smoke-tests-release
     params:
-      repository: updated-cf-smoke-tests-release
+      repository: cf-smoke-tests-release
       rebase: true
 
-- name: cats-acquire-pool
+- name: claim-cats-pool
   public: true
   serial: true
   plan:
@@ -146,32 +206,28 @@ jobs:
     - get: cf-smoke-tests-release-trigger
       trigger: true
     - get: cf-smoke-tests-release
-
   - put: cats-pool
     params:
-      acquire: true
+      claim: cats
 
 - name: deploy-updated-smokes
-  serial_groups:
-  - smoke_tests
+  serial: true
   public: true
+  serial_groups: [smoke_tests]
+  <<: *release_lock_if_not_success
   plan:
   - in_parallel:
     - get: cats-pool
       trigger: true
-      passed:
-      - cats-acquire-pool
+      passed: [claim-cats-pool]
     - get: runtime-ci
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
-      passed:
-      - cats-acquire-pool
+      passed: [claim-cats-pool]
     - get: cf-smoke-tests-release
-      passed:
-      - cats-acquire-pool
+      passed: [claim-cats-pool]
     - get: relint-envs
     - get: windows2019-stemcell
-
   - task: upload-windows2019-stemcell
     file: runtime-ci/tasks/bosh-upload-stemcell/task.yml
     input_mapping:
@@ -179,7 +235,6 @@ jobs:
       stemcell: windows2019-stemcell
     params:
       BBL_STATE_DIR: environments/test/cats/bbl-state
-
   - task: deploy-smoke-tests-errand
     file: runtime-ci/tasks/bosh-deploy-smokes/task.yml
     input_mapping:
@@ -190,24 +245,22 @@ jobs:
       CREDHUB_ENV_NAME: bosh-cats
 
 - name: run-smokes-errand
+  serial: true
+  public: true
   serial_groups:
   - smoke_tests
-  public: true
+  <<: *release_lock_if_not_success
   plan:
   - in_parallel:
     - get: cats-pool
       trigger: true
-      passed:
-      - deploy-updated-smokes
+      passed: [deploy-updated-smokes]
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
-      passed:
-      - deploy-updated-smokes
+      passed: [deploy-updated-smokes]
     - get: cf-smoke-tests-release
-      passed:
-      - deploy-updated-smokes
+      passed: [deploy-updated-smokes]
     - get: relint-envs
-
   - task: run-smokes
     file: cf-deployment-concourse-tasks/run-errand/task.yml
     input_mapping:
@@ -216,7 +269,6 @@ jobs:
       BBL_STATE_DIR: environments/test/cats/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
       ERRAND_NAME: smoke_tests
-
   - task: run-smokes-windows
     file: cf-deployment-concourse-tasks/run-errand/task.yml
     input_mapping:
@@ -227,24 +279,21 @@ jobs:
       ERRAND_NAME: smoke_tests_windows
 
 - name: delete-smokes-deployment
-  serial_groups:
-  - smoke_tests
+  serial: true
   public: true
+  serial_groups: [smoke_tests]
+  <<: *release_lock_if_not_success
   plan:
   - in_parallel:
     - get: cats-pool
       trigger: true
-      passed:
-      - run-smokes-errand
+      passed: [run-smokes-errand]
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
-      passed:
-      - run-smokes-errand
+      passed: [run-smokes-errand]
     - get: cf-smoke-tests-release
-      passed:
-      - run-smokes-errand
+      passed: [run-smokes-errand]
     - get: relint-envs
-
   - task: delete-smoke-tests-deployment
     file: cf-deployment-concourse-tasks/bosh-delete-deployment/task.yml
     input_mapping:
@@ -253,25 +302,22 @@ jobs:
       BBL_STATE_DIR: environments/test/cats/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
 
-  - put: cats-pool
-    params:
-      release: cats-pool
-
 - name: create-final-release
   serial: true
   public: true
+  <<: *release_lock_if_not_success
   plan:
   - in_parallel:
+    - get: cats-pool
+      trigger: true
+      passed: [delete-smokes-deployment]
     - get: cf-smoke-tests-release-trigger
-      passed:
-      - run-smokes-errand
+      passed: [delete-smokes-deployment]
       trigger: true
     - get: cf-smoke-tests-release
-      passed:
-      - run-smokes-errand
+      passed: [delete-smokes-deployment]
     - get: cf-smoke-tests-version
     - get: runtime-ci
-
   - task: create-final-release
     file: runtime-ci/tasks/create-final-release/task.yml
     input_mapping:
@@ -280,13 +326,12 @@ jobs:
     params:
       BLOBS_BUCKET_ACCESS_KEY_ID: ((cf_release_blobs_buckets_access_key_id))
       BLOBS_BUCKET_SECRET_KEY: ((cf_release_blobs_buckets_secrect_access_key))
-
   - put: cf-smoke-tests-release
     params:
       repository: final-release-repo
       rebase: true
       tag: cf-smoke-tests-version/version
-
   - put: cf-smoke-tests-version
     params:
       bump: patch
+  - *release_lock

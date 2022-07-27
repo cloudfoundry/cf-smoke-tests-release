@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: cloudfoundry/relint-base
+
+inputs:
+- name: cf-smoke-tests-release
+
+outputs:
+- name: cf-smoke-tests-release
+      
+params:
+  GO_VERSION:
+  GIT_USER_NAME: CI Bot
+  GIT_USER_EMAIL: bots@cloudfoundry.org
+
+run:
+  path: cf-smoke-tests-release/ci/tasks/bump-release-go-references/task.sh
