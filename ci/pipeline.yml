@@ -21,15 +21,6 @@ release_lock: &release_lock_if_not_success
   on_abort: *release_lock
 
 resources:
-- name: weekly-trigger
-  type: time
-  icon: clock-outline
-  source:
-    start: 3:00
-    stop: 4:30
-    location: America/Los_Angeles
-    interval: 168h
-
 - name: cf-deployment-concourse-tasks
   type: git
   icon: github
@@ -193,8 +184,6 @@ jobs:
   serial: true
   plan:
   - in_parallel:
-    - get: weekly-trigger
-      trigger: true
     - get: cf-smoke-tests-release-trigger
       trigger: true
     - get: cf-smoke-tests-release
