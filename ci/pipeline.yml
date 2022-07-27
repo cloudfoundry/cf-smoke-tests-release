@@ -107,7 +107,7 @@ resources:
 - name: windows2019-stemcell
   type: bosh-io-stemcell
   source:
-    name: bosh-aws-xen-hvm-windows2019-go_agent
+    name: bosh-google-kvm-windows2019-go_agent
 
 - name: golang-release
   type: git
@@ -118,7 +118,7 @@ jobs:
 - name: update-cf-smoke-tests
   serial: true
   public: true
-  serial_groups: [update-repositories]
+  serial_groups: [update-dependencies]
   plan:
   - in_parallel:
     - get: golang-release
@@ -154,7 +154,7 @@ jobs:
 - name: update-cf-smoke-tests-release
   serial: true
   public: true
-  serial_groups: [update-repositories]
+  serial_groups: [update-dependencies]
   plan:
   - in_parallel:
     - get: cf-smoke-tests

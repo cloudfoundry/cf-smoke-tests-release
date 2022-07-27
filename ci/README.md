@@ -1,7 +1,7 @@
 # cf-smoke-tests-release CI
 
 ## Purpose
-This pipeline keeps the components of `cf-smoke-tests` and `cf-smoke-tests-release` up to date, and verifies all changes with automated testing.
+This pipeline keeps the components of `cf-smoke-tests` and `cf-smoke-tests-release` (this repo) up to date, and verifies all changes with automated testing.
 
 ## Where
 The pipeline is public and runs at [app-runtime-deployments.ci.cloudfoundry.org/teams/main/pipelines/cf-smoke-tests](https://app-runtime-deployments.ci.cloudfoundry.org/teams/main/pipelines/cf-smoke-tests)
@@ -13,15 +13,14 @@ All changes to `cf-smoke-tests-release` are automatically verified by the follow
 - Running the `smoke_tests` errand on that bosh deployment (`run-smokes-errand`)
 - Deleting the `cf-smoke-tests-release` deployment (`delete-smokes-deployment`) and cutting a release (`create-final-release`)
 
-### Component bumping
-The following two pipeline jobs automatically bump dependencies in the `cf-smoke-tests` and `cf-smoke-tests-release` repositories respectively:
-1. `update-cf-smoke-tests` bumps:
-    * the [cf-test-helpers](https://github.com/cloudfoundry/cf-test-helpers) submodule
-    * go (1.x minor versions only) and go modules in `go.mod`
-2. `update-cf-smoke-tests-release` bumps:
-    * the cf-smoke-tests submodule
-    * the golang package (version is pinned to that found in `go.mod` in cf-smoke-tests)
+### Version bumping
+The following two pipeline jobs automatically bump the versions of dependencies in the `cf-smoke-tests` and `cf-smoke-tests-release` repos:
+1. `update-cf-smoke-tests` bumps the following in cf-smoke-tests:
+    * go (1.x minor versions only) and its dependencies in [go.mod](https://github.com/cloudfoundry/cf-smoke-tests/blob/main/go.mod), including [cf-test-helpers](https://github.com/cloudfoundry/cf-test-helpers)
+2. `update-cf-smoke-tests-release` bumps cf-smoke-tests-release:
+    * its cf-smoke-tests submodule
+    * its golang package (this follows the `go` version in cf-smoke-tests' [go.mod](https://github.com/cloudfoundry/cf-smoke-tests/blob/main/go.mod))
     * references to the golang package in all files in `jobs/`, `/packages/smoke_tests` and `/packages/smoke_tests_windows`
 
-### Cutting new final releases
-The `create-final-release` job is triggered automatically when new commits to this repo pass the jobs `deploy-updated-smokes`, `run-smokes-errand` and `delete-smokes-deployment`, but not if those commits only change files matching the following paths: `releases/**`, `.final_builds/**`, `ci/**`, and `.envrc`
+### Cutting a final release
+The `create-final-release` job is triggered automatically when new commits to this repo pass the jobs `deploy-updated-smokes`, `run-smokes-errand` and `delete-smokes-deployment` _unless_ those commits only change files matching the following paths: `releases/**`, `.final_builds/**`, `ci/**`, and `.envrc`
