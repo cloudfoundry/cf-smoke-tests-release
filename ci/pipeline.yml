@@ -3,7 +3,7 @@ groups:
 - name: update-dependencies
   jobs:
   - update-cf-smoke-tests
-  - update-cf-smoke-tests-release
+  - update-release
 - name: test-and-release
   jobs:
   - claim-cats-pool
@@ -151,7 +151,7 @@ jobs:
       repository: cf-smoke-tests
       rebase: true
 
-- name: update-cf-smoke-tests-release
+- name: update-release
   serial: true
   public: true
   serial_groups: [update-dependencies]
@@ -185,8 +185,8 @@ jobs:
         blobstore:
           provider: s3
           options:
-            access_key_id: ((aws_access_key_id))
-            secret_access_key: ((aws_secret_access_key))
+            access_key_id: ((cf_release_blobs_buckets_access_key_id))
+            secret_access_key: ((cf_release_blobs_buckets_secrect_access_key))
   - task: bump-release-go-references
     file: cf-smoke-tests-release/ci/tasks/bump-release-go-references/task.yml
     params:
