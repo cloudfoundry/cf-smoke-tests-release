@@ -126,17 +126,6 @@ jobs:
       output_repo: cf-smoke-tests
     params:
       SOURCE_PATH: .
-  - task: run-cf-test-helpers-unit-tests
-    file: runtime-ci/tasks/run-cf-test-helpers-unit-tests/task.yml
-  - task: bump-cf-test-helpers
-    file: runtime-ci/tasks/bump-cf-test-helpers/task.yml
-    input_mapping:
-      repository: cf-smoke-tests
-    output_mapping:
-      updated-repository: cf-smoke-tests
-    params:
-      USE_GO_MOD: true
-      REPOSITORY: cloudfoundry/cf-smoke-tests
   - put: cf-smoke-tests
     params:
       repository: cf-smoke-tests
