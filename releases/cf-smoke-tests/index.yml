@@ -293,6 +293,8 @@ builds:
     version: 40.0.102
   b4150b7f-2f55-4f57-6b74-f7ffddc77f2a:
     version: 40.0.30
+  b4514cbc-627b-49cf-4595-c39ec6cbb6a2:
+    version: 42.0.12
   b49d528b-72ff-47a0-5280-01c505426374:
     version: 40.0.84
   b7a28c3b-1eac-42b4-4776-fe88b474bd17:
