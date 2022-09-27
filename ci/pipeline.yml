@@ -62,13 +62,6 @@ resources:
     branch: main
     private_key: ((cf_smoke_tests_readwrite_deploy_key.private_key))
 
-- name: cf-test-helpers
-  type: git
-  icon: github
-  source:
-    uri: https://github.com/cloudfoundry/cf-test-helpers
-    branch: main
-
 - name: relint-envs
   type: git
   icon: github
@@ -113,8 +106,6 @@ jobs:
   plan:
   - in_parallel:
     - get: golang-release
-      trigger: true
-    - get: cf-test-helpers
       trigger: true
     - get: runtime-ci
     - get: cf-smoke-tests
