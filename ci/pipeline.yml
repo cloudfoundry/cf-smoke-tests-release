@@ -202,7 +202,7 @@ jobs:
       bbl-state: relint-envs
     params:
       BBL_STATE_DIR: environments/test/cats/bbl-state
-      SYSTEM_DOMAIN: cats.cf-app.com
+      SYSTEM_DOMAIN: cf.cats.env.wg-ard.ci.cloudfoundry.org
       CREDHUB_ENV_NAME: bosh-cats
 
 - name: run-smokes-errand

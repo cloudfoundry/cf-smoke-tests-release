@@ -2,7 +2,7 @@
 
 main() {
   set -ex
-  fly -t relint-ci sp -p cf-smoke-tests -c "${PROJECT_DIR}/ci/pipeline.yml"
+  fly -t ard sp -p cf-smoke-tests -c "${PROJECT_DIR}/ci/pipeline.yml"
 }
 
 main "$@"
