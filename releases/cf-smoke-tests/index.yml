@@ -195,6 +195,8 @@ builds:
     version: 40.0.74
   70d32822-cde2-4bc1-5bac-a92eb0f22957:
     version: 40.0.24
+  71fc641d-b0ef-4a84-4b07-75a72d63d0b8:
+    version: 42.0.35
   730e40c7-313b-4d6e-4a4b-c9da5004856f:
     version: "27"
   75d7f6d4-faaa-4a1f-5a7a-2902e2147a56:
