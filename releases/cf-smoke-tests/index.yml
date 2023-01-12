@@ -335,6 +335,8 @@ builds:
     version: 42.0.22
   bc5c76c0-471c-4072-4cbc-bcd214bc4c90:
     version: 40.0.85
+  beb42ab2-01b4-4277-783e-e75798ff265e:
+    version: 42.0.38
   bf50c65a-5407-443a-4149-5559ae6fb16d:
     version: 42.0.20
   c00ce11b-0668-4e22-6eaa-a5d4b717446e:
