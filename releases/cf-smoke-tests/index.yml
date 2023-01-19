@@ -5,6 +5,8 @@ builds:
     version: "14"
   0470b164-4147-4298-5235-fbdb2a56420a:
     version: 40.0.21
+  0540397d-d3c8-4781-6b78-66c1b472cebd:
+    version: 42.0.42
   05882f25-6c83-4772-632b-f33999d81571:
     version: 40.0.106
   05c38fdd-6233-45bd-77fb-1518a976fcbb:
