@@ -67,6 +67,8 @@ builds:
     version: "26"
   1d0b627d-3781-4ff6-5f74-7d0a5429f816:
     version: "20"
+  1da1f0db-b512-4714-6c7d-02b580d8d794:
+    version: 42.0.60
   1e9e25ea-474e-4959-6e68-363bf4a08465:
     version: 42.0.10
   201643de-9015-4067-6ab6-7f1f1cd13538:
