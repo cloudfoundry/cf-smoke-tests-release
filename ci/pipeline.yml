@@ -40,14 +40,14 @@ resources:
   source:
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
     branch: main
-    private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
 
 - name: cf-smoke-tests-release-trigger
   type: git
   icon: github
   source:
     uri: git@github.com:cloudfoundry/cf-smoke-tests-release.git
-    private_key: ((cf_smoke_tests_release_readwrite_deploy_key.private_key))
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
     ignore_paths:
     - releases/**
     - .final_builds/**
@@ -60,14 +60,14 @@ resources:
   source:
     uri: git@github.com:cloudfoundry/cf-smoke-tests.git
     branch: main
-    private_key: ((cf_smoke_tests_readwrite_deploy_key.private_key))
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
 
 - name: relint-envs
   type: git
   icon: github
   source:
     uri: git@github.com:cloudfoundry/relint-envs.git
-    private_key: ((hagrid_env_readwrite_deploy_key.private_key))
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
 
 - name: cats-pool
   type: pool
@@ -76,7 +76,7 @@ resources:
     uri: git@github.com:cloudfoundry/relint-ci-pools
     branch: main
     pool: cats
-    private_key: ((relint_ci_pools_readwrite_deploy_key.private_key))
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
 
 - name: cf-smoke-tests-version
   type: semver
@@ -84,8 +84,7 @@ resources:
     driver: git
     uri: git@github.com:cloudfoundry/cf-relint-ci-semver.git
     branch: main
-    private_key: ((cf_relint_ci_semver_readwrite_deploy_key.private_key))
-    git_user: "CF MEGA BOT <cf-mega@pivotal.io>"
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
     file: cf-smoke-tests-version
 
 - name: windows2019-stemcell
