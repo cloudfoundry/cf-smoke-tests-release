@@ -1,0 +1,52 @@
+name: cf-smoke-tests
+version: 42.0.66
+commit_hash: 8f9c0bb
+uncommitted_changes: false
+jobs:
+- name: smoke_tests
+  version: a14ccc6be775160b6af785b7609c9136b0fc0378e7042aa2dfcf4b4e31ecf6bb
+  fingerprint: a14ccc6be775160b6af785b7609c9136b0fc0378e7042aa2dfcf4b4e31ecf6bb
+  sha1: sha256:23df9870553fa22a1fcf2931a5f4bbb8cb1eb4f8b703a2fd4852a23100ca66ca
+  packages:
+  - golang-1-linux
+  - smoke_tests
+- name: smoke_tests_windows
+  version: 969d6464ba94b0fe415e13eff49877e018e6a45967191143eb6403ec77656f9e
+  fingerprint: 969d6464ba94b0fe415e13eff49877e018e6a45967191143eb6403ec77656f9e
+  sha1: sha256:2b9632847e7abb448b8f21b74802672249fce620426e005e1b73fd52f44f4120
+  packages:
+  - golang-1-windows
+  - cf_cli_windows
+  - smoke_tests_windows
+packages:
+- name: cf_cli_windows
+  version: 4252cbedc7d6c5f98056fca6aeb2870d6db2a957d9baa5baa9c0e78783301199
+  fingerprint: 4252cbedc7d6c5f98056fca6aeb2870d6db2a957d9baa5baa9c0e78783301199
+  sha1: sha256:f84a8649e67ed403b33ab3ed819bf7b068615205e4e64e464dbdad641bbc1023
+  dependencies: []
+- name: golang-1-linux
+  version: 42a2526c7eb4156c02af3beac3d1ec2e125ec161c3d1f631d6648d7b7e1251dc
+  fingerprint: 42a2526c7eb4156c02af3beac3d1ec2e125ec161c3d1f631d6648d7b7e1251dc
+  sha1: sha256:734a8d6c4950c730a0fafe9d29215fac125a419e17645d8cdd800c5e3ea5f9fb
+  dependencies: []
+- name: golang-1-windows
+  version: 4705df435edf456d6cf2b0e02417a90168b903b159281427805dbf1b8dab8606
+  fingerprint: 4705df435edf456d6cf2b0e02417a90168b903b159281427805dbf1b8dab8606
+  sha1: sha256:c80a1b27a7d333ee7d2f155d4278602ea605b6ae3ae4bf26bccb02f8f8df296a
+  dependencies: []
+- name: smoke_tests
+  version: 72ed7c28176aa7393075e70dd94a434fac62c73a77ae0a49336f570c5896df42
+  fingerprint: 72ed7c28176aa7393075e70dd94a434fac62c73a77ae0a49336f570c5896df42
+  sha1: sha256:850b5d0492100e73c71d06511f096c92358ce06560b6077b116106700b82475f
+  dependencies:
+  - golang-1-linux
+- name: smoke_tests_windows
+  version: 93111212087f264df2f994013f03d776f11669470dfee3ef862877e4965b4e36
+  fingerprint: 93111212087f264df2f994013f03d776f11669470dfee3ef862877e4965b4e36
+  sha1: sha256:23ad4639dc71d50c5c83951ec2fa7cf631f45ffa16e1dcc2652a3e3822de2a2b
+  dependencies:
+  - golang-1-windows
+license:
+  version: 9f36cb7e1d85cafcd01133207da29d6dc658f7c98b6f1dd1f8630702a4e03964
+  fingerprint: 9f36cb7e1d85cafcd01133207da29d6dc658f7c98b6f1dd1f8630702a4e03964
+  sha1: sha256:b45d9bbd8436f2415fc36b7d0ef3224fc5214c8c54939710c28d97934d64bd82
