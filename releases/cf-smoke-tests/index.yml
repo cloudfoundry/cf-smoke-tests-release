@@ -205,6 +205,8 @@ builds:
     version: "25"
   616aa319-935b-469c-5bd4-d0691ec156fc:
     version: 42.0.53
+  6358df31-725e-41b0-65f0-d6863f40bef8:
+    version: 42.0.78
   6470797f-a2bd-4c57-6287-52247ba6ff02:
     version: 40.0.61
   674091b3-7175-4e77-7bee-873b0850c913:
