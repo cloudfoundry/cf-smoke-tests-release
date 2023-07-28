@@ -6,17 +6,19 @@ groups:
   - update-release
 - name: test-and-release
   jobs:
-  - claim-cats-pool
+  - claim-smoke-tests-pool
+  - deploy-cf
   - deploy-updated-smokes
   - run-smokes-errand
   - delete-smokes-deployment
+  - delete-cf-deployment
   - create-final-release
 
 release_lock: &release_lock_if_not_success
   on_failure: &release_lock
-    put: cats-pool
+    put: smoke-tests-pool
     params:
-      release: cats-pool
+      release: smoke-tests-pool
   on_error: *release_lock
   on_abort: *release_lock
 
@@ -62,6 +64,14 @@ resources:
     branch: main
     private_key: ((ard_wg_gitbot_ssh_key.private_key))
 
+- name: cf-deployment
+  type: git
+  icon: github
+  source:
+    uri: git@github.com:cloudfoundry/cf-deployment.git
+    branch: main
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
+
 - name: relint-envs
   type: git
   icon: github
@@ -69,13 +79,13 @@ resources:
     uri: git@github.com:cloudfoundry/relint-envs.git
     private_key: ((ard_wg_gitbot_ssh_key.private_key))
 
-- name: cats-pool
+- name: smoke-tests-pool
   type: pool
   icon: pool
   source:
     uri: git@github.com:cloudfoundry/relint-ci-pools
     branch: main
-    pool: cats
+    pool: smoke-tests
     private_key: ((ard_wg_gitbot_ssh_key.private_key))
 
 - name: cf-smoke-tests-version
@@ -158,7 +168,7 @@ jobs:
       repository: cf-smoke-tests-release
       rebase: true
 
-- name: claim-cats-pool
+- name: claim-smoke-tests-pool
   public: true
   serial: true
   plan:
@@ -166,9 +176,39 @@ jobs:
     - get: cf-smoke-tests-release-trigger
       trigger: true
     - get: cf-smoke-tests-release
-  - put: cats-pool
+  - put: smoke-tests-pool
     params:
-      claim: cats
+      claim: smoke-tests
+
+- name: deploy-cf
+  public: true
+  serial_groups: [ smoke_tests ]
+  <<: *release_lock_if_not_success
+  plan:
+    - in_parallel:
+        - get: smoke-tests-pool
+          passed:
+            - claim-smoke-tests-pool
+          trigger: true
+        - get: runtime-ci
+        - get: cf-deployment-concourse-tasks
+        - get: cf-deployment
+        - get: relint-envs
+    - task: bosh-deploy-cf
+      file: cf-deployment-concourse-tasks/bosh-deploy/task.yml
+      input_mapping:
+        bbl-state: relint-envs
+        ops-files: cf-deployment
+        vars-files: relint-envs
+      params:
+        BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
+        SYSTEM_DOMAIN: cf.smoke-tests.env.wg-ard.ci.cloudfoundry.org
+        OPS_FILES: |
+          operations/use-compiled-releases.yml
+          operations/use-internal-lookup-for-route-services.yml
+          operations/windows2019-cell.yml
+          operations/use-online-windows2019fs.yml
+          operations/experimental/use-compiled-releases-windows.yml
 
 - name: deploy-updated-smokes
   serial: true
@@ -177,15 +217,13 @@ jobs:
   <<: *release_lock_if_not_success
   plan:
   - in_parallel:
-    - get: cats-pool
+    - get: smoke-tests-pool
       trigger: true
-      passed: [claim-cats-pool]
+      passed: [deploy-cf]
     - get: runtime-ci
     - get: cf-deployment-concourse-tasks
     - get: cf-smoke-tests-release-trigger
-      passed: [claim-cats-pool]
     - get: cf-smoke-tests-release
-      passed: [claim-cats-pool]
     - get: relint-envs
     - get: windows2019-stemcell
   - task: upload-windows2019-stemcell
@@ -194,15 +232,15 @@ jobs:
       bbl-state: relint-envs
       stemcell: windows2019-stemcell
     params:
-      BBL_STATE_DIR: environments/test/cats/bbl-state
+      BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
   - task: deploy-smoke-tests-errand
     file: runtime-ci/tasks/bosh-deploy-smokes/task.yml
     input_mapping:
       bbl-state: relint-envs
     params:
-      BBL_STATE_DIR: environments/test/cats/bbl-state
-      SYSTEM_DOMAIN: cf.cats.env.wg-ard.ci.cloudfoundry.org
-      CREDHUB_ENV_NAME: bosh-cats
+      BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
+      SYSTEM_DOMAIN: cf.smoke-tests.env.wg-ard.ci.cloudfoundry.org
+      CREDHUB_ENV_NAME: bosh-smoke-tests
 
 - name: run-smokes-errand
   serial: true
@@ -212,7 +250,7 @@ jobs:
   <<: *release_lock_if_not_success
   plan:
   - in_parallel:
-    - get: cats-pool
+    - get: smoke-tests-pool
       trigger: true
       passed: [deploy-updated-smokes]
     - get: cf-deployment-concourse-tasks
@@ -226,7 +264,7 @@ jobs:
     input_mapping:
       bbl-state: relint-envs
     params:
-      BBL_STATE_DIR: environments/test/cats/bbl-state
+      BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
       ERRAND_NAME: smoke_tests
   - task: run-smokes-windows
@@ -234,7 +272,7 @@ jobs:
     input_mapping:
       bbl-state: relint-envs
     params:
-      BBL_STATE_DIR: environments/test/cats/bbl-state
+      BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
       ERRAND_NAME: smoke_tests_windows
 
@@ -245,7 +283,7 @@ jobs:
   <<: *release_lock_if_not_success
   plan:
   - in_parallel:
-    - get: cats-pool
+    - get: smoke-tests-pool
       trigger: true
       passed: [run-smokes-errand]
     - get: cf-deployment-concourse-tasks
@@ -259,8 +297,35 @@ jobs:
     input_mapping:
       bbl-state: relint-envs
     params:
-      BBL_STATE_DIR: environments/test/cats/bbl-state
+      BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
       DEPLOYMENT_NAME: cf-smoke-tests
+
+- name: delete-cf-deployment
+  serial: true
+  public: true
+  serial_groups: [smoke_tests]
+  <<: *release_lock_if_not_success
+  plan:
+  - in_parallel:
+    - get: smoke-tests-pool
+      trigger: true
+      passed: [delete-smokes-deployment]
+    - get: cf-deployment-concourse-tasks
+    - get: relint-envs
+  - task: delete-deployment-cf
+    file: cf-deployment-concourse-tasks/bosh-delete-deployment/task.yml
+    input_mapping:
+      bbl-state: relint-envs
+    params:
+      BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
+      DEPLOYMENT_NAME: cf
+      IGNORE_ERRORS: true
+  - task: run-bosh-cleanup
+    file: cf-deployment-concourse-tasks/bosh-cleanup/task.yml
+    input_mapping:
+      bbl-state: relint-envs
+    params:
+      BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
 
 - name: create-final-release
   serial: true
@@ -268,7 +333,7 @@ jobs:
   <<: *release_lock_if_not_success
   plan:
   - in_parallel:
-    - get: cats-pool
+    - get: smoke-tests-pool
       trigger: true
       passed: [delete-smokes-deployment]
     - get: cf-smoke-tests-release-trigger
