@@ -461,6 +461,8 @@ builds:
     version: "10"
   d5713dca-4e68-46b3-4cbb-442283e7f79e:
     version: 42.0.3
+  d649fe33-7acc-4783-608e-b6345c0a2222:
+    version: 42.0.93
   d66116b7-ec94-4f32-7cd5-e298ad5c643d:
     version: 40.0.93
   d67ad4ce-658d-4cc0-596f-b16f37297a52:
