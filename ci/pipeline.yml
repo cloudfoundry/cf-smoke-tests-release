@@ -107,6 +107,13 @@ resources:
   source:
     uri: https://github.com/bosh-packages/golang-release.git
 
+- name: cf-cli-release
+  type: github-release
+  source:
+    owner: cloudfoundry
+    repository: cli
+    tag_filter: "v8.*"
+
 jobs:
 - name: update-cf-smoke-tests
   serial: true
@@ -142,6 +149,8 @@ jobs:
     - get: golang-release
       trigger: true
       passed: [update-cf-smoke-tests]
+    - get: cf-cli-release
+      trigger: true
     - get: runtime-ci
     - get: cf-smoke-tests-release
   - task: bump-cf-smoke-tests-submodule
@@ -156,6 +165,20 @@ jobs:
       output_repo: cf-smoke-tests-release
     params:
       PACKAGES: [golang-1-linux, golang-1-windows]
+      PRIVATE_YML: |
+        ---
+        blobstore:
+          provider: s3
+          options:
+            access_key_id: ((cf_release_blobs_buckets_access_key_id))
+            secret_access_key: ((cf_release_blobs_buckets_secrect_access_key))
+  - task: bump-cf-cli-windows-blob
+    file: runtime-ci/tasks/bump-cf-cli-windows-blob/task.yml
+    input_mapping:
+      release-repo: cf-smoke-tests-release
+    output_mapping:
+      updated-release-repo: cf-smoke-tests-release
+    params:
       PRIVATE_YML: |
         ---
         blobstore:
