@@ -104,11 +104,13 @@ resources:
 
 - name: golang-release
   type: git
+  check_every: 12h
   source:
     uri: https://github.com/bosh-packages/golang-release.git
 
 - name: cf-cli-release
   type: github-release
+  check_every: 12h
   source:
     owner: cloudfoundry
     repository: cli
