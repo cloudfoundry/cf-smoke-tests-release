@@ -4,3 +4,5 @@ blobstore:
   provider: s3
   options:
     bucket_name: cf-smoke-tests-release-bucket-ard-wg
+    region: eu-central-1
+    host: s3.eu-central-1.amazonaws.com
