@@ -14,7 +14,7 @@
   "password"                        : "<%= password %>",
 <% end %>
 <% if_p("smoke_tests.timeout_scale") do |timeout_scale| %>
-  "timeout_scale"                   : "<%= timeout_scale %>",
+  "timeout_scale"                   : <%= timeout_scale %>,
 <% end %>
   "org"                             : "<%= properties.smoke_tests.org %>",
   "space"                           : "<%= properties.smoke_tests.space %>",
