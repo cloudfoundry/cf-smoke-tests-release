@@ -1,6 +1,6 @@
 ---
 name: cf-smoke-tests
 blobstore:
-  provider: s3
+  provider: gcs
   options:
-    bucket_name: cf-smoke-tests-release-bucket
+    bucket_name: cf-smoke-tests-release-bucket-ard-wg

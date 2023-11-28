@@ -170,10 +170,9 @@ jobs:
       PRIVATE_YML: |
         ---
         blobstore:
-          provider: s3
           options:
-            access_key_id: ((cf_release_blobs_buckets_access_key_id))
-            secret_access_key: ((cf_release_blobs_buckets_secrect_access_key))
+            credentials_source: static
+            json_key: ((ci_dev_gcp_service_account_json))
   - task: bump-cf-cli-windows-blob
     file: runtime-ci/tasks/bump-cf-cli-windows-blob/task.yml
     input_mapping:
@@ -184,10 +183,9 @@ jobs:
       PRIVATE_YML: |
         ---
         blobstore:
-          provider: s3
           options:
-            access_key_id: ((cf_release_blobs_buckets_access_key_id))
-            secret_access_key: ((cf_release_blobs_buckets_secrect_access_key))
+            credentials_source: static
+            json_key: ((ci_dev_gcp_service_account_json))
   - put: cf-smoke-tests-release
     params:
       repository: cf-smoke-tests-release
@@ -374,8 +372,7 @@ jobs:
       release-repo: cf-smoke-tests-release
       semantic-version: cf-smoke-tests-version
     params:
-      BLOBS_BUCKET_ACCESS_KEY_ID: ((cf_release_blobs_buckets_access_key_id))
-      BLOBS_BUCKET_SECRET_KEY: ((cf_release_blobs_buckets_secrect_access_key))
+      BLOBS_BUCKET_GCS_JSON_KEY: ((ci_dev_gcp_service_account_json))
   - put: cf-smoke-tests-release
     params:
       repository: final-release-repo
