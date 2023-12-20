@@ -172,7 +172,7 @@ jobs:
         blobstore:
           options:
             credentials_source: static
-            json_key: ((ci_dev_gcp_service_account_json))
+            json_key: '((ci_dev_gcp_service_account_json))'
   - task: bump-cf-cli-windows-blob
     file: runtime-ci/tasks/bump-cf-cli-windows-blob/task.yml
     input_mapping:
@@ -185,7 +185,7 @@ jobs:
         blobstore:
           options:
             credentials_source: static
-            json_key: ((ci_dev_gcp_service_account_json))
+            json_key: '((ci_dev_gcp_service_account_json))'
   - put: cf-smoke-tests-release
     params:
       repository: cf-smoke-tests-release
