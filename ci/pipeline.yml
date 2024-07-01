@@ -227,6 +227,7 @@ jobs:
         BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
         SYSTEM_DOMAIN: cf.smoke-tests.env.wg-ard.ci.cloudfoundry.org
         OPS_FILES: |
+          operations/stop-skipping-tls-validation.yml
           operations/use-compiled-releases.yml
           operations/use-internal-lookup-for-route-services.yml
           operations/windows2019-cell.yml
