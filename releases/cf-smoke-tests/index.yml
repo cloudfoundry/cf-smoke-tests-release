@@ -641,6 +641,8 @@ builds:
     version: "22"
   ef803b9c-3ea7-420b-78ce-39e3957192c8:
     version: "18"
+  ef8359a4-a9e9-4b61-6640-97f07a5d308e:
+    version: 42.0.166
   efbfdb7d-be37-4cf2-606d-264d310b945d:
     version: 42.0.141
   f0176185-d64b-4385-4d78-4e181df5d84b:
