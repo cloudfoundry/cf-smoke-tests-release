@@ -11,6 +11,8 @@ builds:
     version: 40.0.21
   0540397d-d3c8-4781-6b78-66c1b472cebd:
     version: 42.0.42
+  056d4b6c-883e-4f13-443d-89a94cc7db59:
+    version: 42.0.178
   05882f25-6c83-4772-632b-f33999d81571:
     version: 40.0.106
   05c38fdd-6233-45bd-77fb-1518a976fcbb:
