@@ -1,0 +1,53 @@
+name: cf-smoke-tests
+version: 42.0.255
+commit_hash: 56effca
+uncommitted_changes: false
+jobs:
+- name: smoke_tests
+  version: a1d177d439717c3ea20f58552b27594e7a274df7c2a5d7438aead31568e5f202
+  fingerprint: a1d177d439717c3ea20f58552b27594e7a274df7c2a5d7438aead31568e5f202
+  sha1: sha256:bd778c1950a10afa197ea3f7a851dacecbd0e169d441aca1123737a68c3cd2c8
+  packages:
+  - golang-1-linux
+  - smoke_tests
+- name: smoke_tests_windows
+  version: d804fc7bcbe0087d252995a13f19f5bf04c92e5b032411e9e45d84c7248aacbd
+  fingerprint: d804fc7bcbe0087d252995a13f19f5bf04c92e5b032411e9e45d84c7248aacbd
+  sha1: sha256:7e7aeab090198bbc48ffc0215e16e5514f2b162d2ce69982a07575ca530183b7
+  packages:
+  - golang-1-windows
+  - cf_cli_windows
+  - smoke_tests_windows
+packages:
+- name: cf_cli_windows
+  version: 1a1e302b7e2515a88f6c7e5d8858b2a8552407b912924e66c481eabba31af4d1
+  fingerprint: 1a1e302b7e2515a88f6c7e5d8858b2a8552407b912924e66c481eabba31af4d1
+  sha1: sha256:c4a2f9e69c160e2303b40acf81687a114fdaebeddd20f9405a2cd9bc528c79fa
+  dependencies: []
+- name: golang-1-linux
+  version: f1678e1905765af79ad2c9baf765d8a8771a319b3ff226fed1f534f50255dbd4
+  fingerprint: f1678e1905765af79ad2c9baf765d8a8771a319b3ff226fed1f534f50255dbd4
+  sha1: sha256:dbb0dca5a82892f18473c6636162f36a66d00e0355248befc932e5df1a51aa7b
+  dependencies: []
+- name: golang-1-windows
+  version: 21c3cbe3529bc56c82990bf6fe31642d2d3c553f43e189dcb10b9c86eb102b9c
+  fingerprint: 21c3cbe3529bc56c82990bf6fe31642d2d3c553f43e189dcb10b9c86eb102b9c
+  sha1: sha256:53d1221fdd3eae31cbca3453133d226de75f50ed2ef9aef5376f39d4d9c1d016
+  dependencies: []
+- name: smoke_tests
+  version: ea01eca4a478b031f31e250211222a2e701b8f50c588204bb7d45616dbf53983
+  fingerprint: ea01eca4a478b031f31e250211222a2e701b8f50c588204bb7d45616dbf53983
+  sha1: sha256:930a75f5cdacec459a732ed68620e1ac4fac28346b1b46c51ed97201a678812f
+  dependencies:
+  - golang-1-linux
+- name: smoke_tests_windows
+  version: a9cc7186bb546d78c48215a9467fb0e3fd6758bbc56d8fcbdc0029adec6fba53
+  fingerprint: a9cc7186bb546d78c48215a9467fb0e3fd6758bbc56d8fcbdc0029adec6fba53
+  sha1: sha256:9fa766078f4f46399fcd4040401659180849b10b23365ee5053670aeceec650e
+  dependencies:
+  - golang-1-windows
+license:
+  version: 9f36cb7e1d85cafcd01133207da29d6dc658f7c98b6f1dd1f8630702a4e03964
+  fingerprint: 9f36cb7e1d85cafcd01133207da29d6dc658f7c98b6f1dd1f8630702a4e03964
+  sha1: sha256:b45d9bbd8436f2415fc36b7d0ef3224fc5214c8c54939710c28d97934d64bd82
+no_compression: false
