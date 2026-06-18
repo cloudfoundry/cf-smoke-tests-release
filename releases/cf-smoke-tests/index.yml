@@ -415,6 +415,8 @@ builds:
     version: "14"
   77a45775-ca75-459d-6688-5847e90324f5:
     version: 40.0.64
+  77b32dda-b817-44b2-4333-aab3ccc6fa24:
+    version: 42.0.264
   77ba65ca-5b2f-462c-4c5e-44c909ea2c5e:
     version: 40.0.120
   7a9a85b3-586c-4342-71b5-dd6400db17a9:
