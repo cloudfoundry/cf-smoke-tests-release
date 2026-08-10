@@ -226,6 +226,7 @@ jobs:
       params:
         BBL_STATE_DIR: environments/test/smoke-tests/bbl-state
         SYSTEM_DOMAIN: cf.smoke-tests.env.wg-ard.ci.cloudfoundry.org
+        REGENERATE_CREDENTIALS: true
         OPS_FILES: |
           operations/stop-skipping-tls-validation.yml
           operations/use-compiled-releases.yml
