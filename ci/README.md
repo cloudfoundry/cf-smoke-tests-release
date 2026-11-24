@@ -8,10 +8,13 @@ The pipeline is public and runs at [app-runtime-deployments.ci.cloudfoundry.org/
 
 ### Automated Testing
 All changes to `cf-smoke-tests-release` are automatically verified by the following steps:
-- Claiming a working bosh-deployed CF environment (`claim-cats-pool`)
+- Claiming the smoke-test environment (`claim-smoke-tests-pool`)
+- Removing any existing `cf` deployment before deploying a fresh one (`deploy-cf`)
 - Deploying the smoke tests with the same bosh director (`deploy-updated-smokes`)
 - Running the `smoke_tests` errand on that bosh deployment (`run-smokes-errand`)
 - Deleting the `cf-smoke-tests-release` deployment (`delete-smokes-deployment`) and cutting a release (`create-final-release`)
+
+If a failed build leaves the pool locked, run `smoke-tests-release-pool-manual` to reset it.
 
 ### Version bumping
 The following two pipeline jobs automatically bump the versions of dependencies in the `cf-smoke-tests` and `cf-smoke-tests-release` repos:
